@@ -210,11 +210,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  myWidth: 0
-  myHeight: 0
-  leftLimit: -10
-  rightLimit: 10
-  jumpSpeedY: 200
+  leftLimit: -11
+  rightLimit: 11
+  jumpSpeedY: 450
 --- !u!212 &212989994815448628
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -89,6 +89,7 @@ public class CatMovement : MonoBehaviour
         if (trans.position.x < leftLimit || trans.position.x > rightLimit) // kill cat if cat goes out of screen
         {
             Destroy(gameObject);
+            GameManager.Instance.spawnCat();
         }
     }
 }

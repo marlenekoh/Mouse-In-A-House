@@ -211,11 +211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  myWidth: 0
-  myHeight: 0
-  leftLimit: -10
-  rightLimit: 10
-  jumpSpeedY: 200
+  leftLimit: -11
+  rightLimit: 11
 --- !u!114 &114531656712751094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,8 +225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  myWidth: 0
-  myHeight: 0
   leftLimit: -10
   rightLimit: 10
   jumpSpeedY: 200

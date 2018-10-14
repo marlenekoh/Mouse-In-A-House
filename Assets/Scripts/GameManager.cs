@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Transform[] spawnPoints;
 
     private int[] catsKilled;
+    private int[] catCount; // TODO: decide if in screen or total since start of game
 
     private void Awake()
     {
@@ -23,9 +24,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void spawnCat(int index)
+    public void spawnCat()
     {
+        int index = chooseCat();
         int spawnIndex = Random.Range(0, 5);
+        spawnIndex = 1;
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
         Transform t = createdCat.GetComponent<Transform>();
         if (spawnIndex >= 3)
@@ -36,5 +39,11 @@ public class GameManager : MonoBehaviour
         {
             t.localScale = new Vector3(0.5f, 0.5f, 1);
         }
+    }
+
+    private int chooseCat()
+    {
+        // TODO: Decide which cat to spawn based on number of cats killed etc etc
+        return 1;
     }
 }

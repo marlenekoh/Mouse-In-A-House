@@ -64,9 +64,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    // for jump
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // for jump
         if (collision.gameObject.tag == "Ground" && rb.velocity.y == 0)
         {
             rb.velocity = new Vector3(0,0,0);
@@ -90,7 +90,7 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.Log("You killed a cat!");
             Destroy(collision.gameObject.GetComponent<Transform>().parent.gameObject);
-            GameManager.Instance.spawnCat(0);
+            GameManager.Instance.spawnCat();
         }
 
         // if mouse touches front of cat

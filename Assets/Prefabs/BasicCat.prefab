@@ -210,10 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  myWidth: 7
-  myHeight: 5
-  leftLimit: -10
-  rightLimit: 10
+  leftLimit: -11
+  rightLimit: 11
 --- !u!212 &212887008105859782
 SpriteRenderer:
   m_ObjectHideFlags: 1
