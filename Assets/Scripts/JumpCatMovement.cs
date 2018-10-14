@@ -26,7 +26,7 @@ public class JumpCatMovement : CatMovement
         {
             Debug.Log("I should jump here");
             // TODO: Implement logic to not jump depending on mouse position
-            if (mouse.GetComponent<Transform>().position.y > trans.position.y) //jump
+            if (mouse != null && mouse.GetComponent<Transform>().position.y > trans.position.y) //jump
             {
                 isJumping = true;
                 rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY));

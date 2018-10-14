@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour
         {
             // game over code
             Debug.Log("Game over!");
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
 
     }
@@ -89,6 +89,7 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.tag == "CatBack") // then kill cat
         {
             Debug.Log("You killed a cat!");
+            // TODO: increment cat kill count
             Destroy(collision.gameObject.GetComponent<Transform>().parent.gameObject);
             GameManager.Instance.spawnCat();
         }
@@ -98,7 +99,7 @@ public class PlayerManager : MonoBehaviour
         {
             // game over code
             Debug.Log("Game over!");
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
