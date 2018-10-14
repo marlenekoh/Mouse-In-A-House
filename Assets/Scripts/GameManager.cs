@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            GameObject.Destroy(gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -45,6 +45,6 @@ public class GameManager : MonoBehaviour
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
 
-        return 1;
+        return 0;
     }
 }
