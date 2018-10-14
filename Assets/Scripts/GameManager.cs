@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     {
         int index = chooseCat();
         int spawnIndex = Random.Range(0, 5);
+        //TODO: if cat created is charging cat, spawn lower? unless is flying then don't need
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
         Transform t = createdCat.GetComponent<Transform>();
         if (spawnIndex >= 3)
@@ -45,6 +46,6 @@ public class GameManager : MonoBehaviour
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
 
-        return 0;
+        return 2;
     }
 }
