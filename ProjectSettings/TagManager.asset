@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - BasicCat
-  - ChargeCat
-  - JumpCat
+  - CatBack
+  - JumpPoint
+  - Cat
   layers:
   - Default
   - TransparentFX
@@ -17,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Cat
+  - Mouse
   - 
   - 
   - 

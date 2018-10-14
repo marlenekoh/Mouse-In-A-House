@@ -11,7 +11,6 @@ public class PlayerManager : MonoBehaviour
     bool facingRight = true;
     bool goingRight = true;
     bool isJumping = false;
-    float speed;
 
     Rigidbody2D rb;
 
@@ -32,26 +31,16 @@ public class PlayerManager : MonoBehaviour
         // move right, stop
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            speed = -speedX;
             goingRight = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            speed = 0;
         }
 
         // move left, stop
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            speed = speedX;
             goingRight = true;
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            speed = 0;
-        }
 
-        if (!isJumping && Input.GetKeyDown(KeyCode.UpArrow))
+        if (!isJumping && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY));
@@ -80,9 +69,36 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground" && rb.velocity.y == 0)
         {
-            speed = 0;
             rb.velocity = new Vector3(0,0,0);
             isJumping = false;
+        }
+
+        // if mouse touches bottom of cat
+        if (collision.gameObject.tag == "Cat") // then kill player
+        {
+            // game over code
+            Debug.Log("Game over!");
+            //Destroy(gameObject);
+        }
+
+    }
+    
+    // on collision with other cats
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CatBack") // then kill cat
+        {
+            Debug.Log("You killed a cat!");
+            Destroy(collision.gameObject.GetComponent<Transform>().parent.gameObject);
+            GameManager.Instance.spawnCat(0);
+        }
+
+        // if mouse touches front of cat
+        if (collision.gameObject.tag == "Cat") // then kill player
+        {
+            // game over code
+            Debug.Log("Game over!");
+            //Destroy(gameObject);
         }
     }
 }
