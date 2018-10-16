@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour
         {
             // game over code
             Debug.Log("Game over!");
-            Destroy(gameObject);
+            GameManager.getInstance().gameOver();
         }
 
     }
@@ -92,15 +92,15 @@ public class PlayerManager : MonoBehaviour
             // TODO: increment cat kill count
             // TODO: implement stun all cats when one cat dies
             Destroy(collision.gameObject.GetComponent<Transform>().parent.gameObject);
-            GameManager.Instance.spawnCat();
+            GameManager.getInstance().spawnCat();
         }
 
         // if mouse touches front of cat
-        if (collision.gameObject.tag == "Cat") // then kill player
+        if (collision.gameObject.tag == "Cat") // then game over
         {
             // game over code
             Debug.Log("Game over!");
-            Destroy(gameObject);
+            GameManager.getInstance().gameOver();
         }
     }
 }

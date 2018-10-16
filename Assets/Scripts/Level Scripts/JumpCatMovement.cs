@@ -11,7 +11,7 @@ public class JumpCatMovement : CatMovement
     {
         if (isJumping)
         {
-            // add aritifical gravity to make jump smoother
+            // add artifical gravity to make jump smoother
             Vector3 vel = rb.velocity;
             vel.y -= 15 * Time.deltaTime;
             rb.velocity = vel;

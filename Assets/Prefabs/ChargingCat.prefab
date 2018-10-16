@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 212989994815448628}
   - component: {fileID: 61454873272075758}
   - component: {fileID: 50064460488741302}
-  - component: {fileID: 114531656712751094}
   - component: {fileID: 114194455290263060}
   m_Layer: 8
   m_Name: ChargingCat
@@ -123,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!61 &61301732557199280
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -213,21 +212,6 @@ MonoBehaviour:
   speed: 4
   leftLimit: -11
   rightLimit: 11
---- !u!114 &114531656712751094
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002028873182414}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1c1f71bfc7abc4484f95788e177e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  leftLimit: -10
-  rightLimit: 10
-  jumpSpeedY: 200
 --- !u!212 &212989994815448628
 SpriteRenderer:
   m_ObjectHideFlags: 1
