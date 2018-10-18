@@ -43,4 +43,14 @@ public class CatMovement : MonoBehaviour
             GameManager.getInstance().spawnCat();
         }
     }
+
+    public void setSpeed(int newSpeed)
+    {
+        speed = newSpeed;
+    }
+
+    public int getSpeed()
+    {
+        return speed;
+    }
 }

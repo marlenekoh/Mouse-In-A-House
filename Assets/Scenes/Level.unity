@@ -240,7 +240,7 @@ MonoBehaviour:
   - {fileID: 79903444}
   gameOverObject: {fileID: 1756128343}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
 --- !u!4 &58547805
 Transform:
   m_ObjectHideFlags: 0

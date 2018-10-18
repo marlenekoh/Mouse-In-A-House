@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     private GameObject mouse;
     private Utils utils;
+    private bool stunModeOn;
+    private bool[] isStunned; //maybe can use stack instead
     private int[] catsKilled;
     private int[] catCount; // TODO: decide if in screen or total since start of game
     private bool[] spawnIndexTaken = new bool[6];
@@ -35,7 +37,28 @@ public class GameManager : MonoBehaviour
         }
         mouse = GameObject.Find("Mouse");
         utils = new Utils();
+        stunModeOn = false;
         startGame();
+    }
+
+    private void Update()
+    {
+        //bool flag = false;
+        //if (stunModeOn)
+        //{
+        //    for (int i = 0; i < isStunned.Length; i++)
+        //    {
+        //        if (isStunned[i])
+        //        {
+        //            flag = true;
+        //            break;
+        //        }
+        //    }
+        //}
+        //if (!flag)
+        //{
+        //    stunModeOn = false;
+        //}
     }
 
     public static GameManager getInstance()
@@ -45,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void startGame()
     {
-        destroyExistingCats();
+        destroyExistingCats(); // to clear existing cats when restart game
         moveMouse();
         spawnCat(1);
         spawnCat(0);
@@ -94,6 +117,27 @@ public class GameManager : MonoBehaviour
         }
 
         StartCoroutine(spawnCatBox(index, spawnIndex));
+    }
+
+    public void destroyCat(GameObject cat)
+    {
+        // TODO: Increment cat kill count
+        Destroy(cat);
+    }
+
+    public void stunAllCats()
+    {
+        //if (!stunModeOn)
+        //{
+            stunModeOn = true;
+            GameObject[] existingCats = GameObject.FindGameObjectsWithTag("Cat");
+            isStunned = new bool[existingCats.Length];
+
+            for (int i = 0; i < existingCats.Length; i++)
+            {
+                StartCoroutine(stunCat(existingCats[i], i));
+            }
+        //}
     }
 
     private int chooseCat()
@@ -151,5 +195,15 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1); // delay 1 second
         spawnIndexTaken[spawnIndex] = false;
         Debug.Log("spawnIndex " + spawnIndex + " has been freed");
+    }
+
+    IEnumerator stunCat(GameObject cat, int index)
+    {
+        int originalSpeed = cat.GetComponent<CatMovement>().getSpeed();
+        cat.GetComponent<CatMovement>().setSpeed(0);
+        isStunned[index] = true;
+        yield return new WaitForSeconds(1); // delay 1 second
+        cat.GetComponent<CatMovement>().setSpeed(originalSpeed);
+        isStunned[index] = false;
     }
 }
