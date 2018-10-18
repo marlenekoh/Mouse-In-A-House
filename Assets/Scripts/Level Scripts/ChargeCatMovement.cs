@@ -5,5 +5,16 @@ using UnityEngine;
 public class ChargeCatMovement : CatMovement
 {
     // todo: implement animation
-    //coroutine
+    private new void Start()
+    {
+        base.Start();
+        StartCoroutine(windup());
+    }
+
+    IEnumerator windup()
+    {
+        speed = 0;
+        yield return new WaitForSeconds(2); // delay 1 second
+        speed = 10;
+    }
 }

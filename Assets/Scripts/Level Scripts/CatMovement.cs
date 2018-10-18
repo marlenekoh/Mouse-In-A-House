@@ -21,7 +21,7 @@ public class CatMovement : MonoBehaviour
         trans = this.transform;
         rb = this.GetComponent<Rigidbody2D>();
         Random.InitState(System.DateTime.Now.Millisecond);
-        speed = Random.Range(1, GameManager.getInstance().getMaxSpeed());
+        speed = Random.Range(3, GameManager.getInstance().getMaxSpeed());
         //myAnim = this.GetComponent<Animator>();
     }
 

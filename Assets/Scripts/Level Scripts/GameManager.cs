@@ -8,11 +8,14 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] cats;
     public Transform[] spawnPoints;
+    public Transform[] boxSpawnPoints;
     public GameObject gameOverObject;
+    public GameObject catBox;
 
     private GameObject mouse;
     private int[] catsKilled;
     private int[] catCount; // TODO: decide if in screen or total since start of game
+    private bool[] spawnIndexTaken = new bool[6];
 
     private void Awake()
     {
@@ -30,10 +33,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager getInstance()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
         return Instance;
     }
 public void startGame()
@@ -41,6 +40,7 @@ public void startGame()
         destroyExistingCats();
         moveMouse();
         spawnCat(1);
+        spawnCat(0);
         gameOverObject.SetActive(false);
         pauseGame(false); 
     }
@@ -69,29 +69,18 @@ public void startGame()
         Debug.Log("I spawned cat with index " + index);
 
         Random.InitState(System.DateTime.Now.Millisecond);
+
+        // to prevent cats from spawning in the same spot
         int spawnIndex = Random.Range(0, 5);
+        spawnIndexTaken[spawnIndex] = true;
 
-        //TODO: if cat created is charging cat, spawn lower? unless is flying then don't need
-        GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
-        Transform t = createdCat.GetComponent<Transform>();
-
-        Vector3 newLocalScale;
-        if (index == 1) //jumping cat is smaller
+        while (!spawnIndexTaken[spawnIndex])
         {
-            newLocalScale = new Vector3(0.4f, 0.4f, 1);
-        }
-        else
-        {
-            newLocalScale = new Vector3(0.5f, 0.5f, 1);
+            spawnIndex = Random.Range(0, 5);
+            spawnIndexTaken[spawnIndex] = true;
         }
 
-        if (spawnIndex >= 3) //should face the left
-        {
-            newLocalScale.x = -newLocalScale.x;
-        }
-        
-
-        t.localScale = newLocalScale;
+        StartCoroutine(spawnCatBox(index, spawnIndex));
     }
 
     private int chooseCat()
@@ -99,7 +88,7 @@ public void startGame()
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
         Random.InitState(System.DateTime.Now.Millisecond);
-        return 1;
+        return 2;
     }
     
     public int getMaxSpeed()
@@ -124,5 +113,42 @@ public void startGame()
         {
             Time.timeScale = 1.0f;
         }
+    }
+
+    IEnumerator spawnCatBox(int index, int spawnIndex)
+    {
+        Vector3 newLocalScale;
+
+        GameObject tempCatBox = Instantiate(catBox, boxSpawnPoints[spawnIndex]);
+        if (spawnIndex < 3) //should face the right
+        {
+            newLocalScale = tempCatBox.transform.localScale;
+            newLocalScale.x = -newLocalScale.x;
+            tempCatBox.transform.localScale = newLocalScale;
+        }
+
+        yield return new WaitForSeconds(1); // delay 1 second
+        Destroy(tempCatBox);
+        spawnIndexTaken[spawnIndex] = false;
+
+        //TODO: if cat created is charging cat, spawn lower? unless is flying then don't need
+        GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
+        Transform t = createdCat.GetComponent<Transform>();
+
+        if (index == 1) //jumping cat is smaller
+        {
+            newLocalScale = new Vector3(0.4f, 0.4f, 1);
+        }
+        else
+        {
+            newLocalScale = new Vector3(0.5f, 0.5f, 1);
+        }
+
+        if (spawnIndex >= 3) //should face the left
+        {
+            newLocalScale.x = -newLocalScale.x;
+        }
+
+        t.localScale = newLocalScale;
     }
 }
