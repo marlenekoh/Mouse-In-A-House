@@ -11,11 +11,17 @@ public class GameManager : MonoBehaviour
     public Transform[] boxSpawnPoints;
     public GameObject gameOverObject;
     public GameObject catBox;
+    public bool debugInvincibleMode;
 
     private GameObject mouse;
+    private Utils utils;
     private int[] catsKilled;
     private int[] catCount; // TODO: decide if in screen or total since start of game
     private bool[] spawnIndexTaken = new bool[6];
+
+    private readonly int BASIC_CAT_INDEX = 0;
+    private readonly int JUMPING_CAT_INDEX = 1;
+    private readonly int CHARGING_CAT_INDEX = 2;
 
     private void Awake()
     {
@@ -28,6 +34,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         mouse = GameObject.Find("Mouse");
+        utils = new Utils();
         startGame();
     }
 
@@ -35,14 +42,15 @@ public class GameManager : MonoBehaviour
     {
         return Instance;
     }
-public void startGame()
+
+    public void startGame()
     {
         destroyExistingCats();
         moveMouse();
         spawnCat(1);
         spawnCat(0);
         gameOverObject.SetActive(false);
-        pauseGame(false); 
+        utils.pauseGame(false); 
     }
 
     private void moveMouse()
@@ -66,18 +74,23 @@ public void startGame()
 
     public void spawnCat(int index)
     {
-        Debug.Log("I spawned cat with index " + index);
+        //Debug.Log("I spawned cat with index " + index);
 
         Random.InitState(System.DateTime.Now.Millisecond);
 
         // to prevent cats from spawning in the same spot
         int spawnIndex = Random.Range(0, 5);
-        spawnIndexTaken[spawnIndex] = true;
-
+        if (!spawnIndexTaken[spawnIndex])
+        {
+            spawnIndexTaken[spawnIndex] = true;
+        }
+        Debug.Log("spawnIndex " + spawnIndex + " has been taken");
         while (!spawnIndexTaken[spawnIndex])
         {
             spawnIndex = Random.Range(0, 5);
             spawnIndexTaken[spawnIndex] = true;
+            Debug.Log("spawnIndex " + spawnIndex + " has been taken2");
+
         }
 
         StartCoroutine(spawnCatBox(index, spawnIndex));
@@ -88,7 +101,7 @@ public void startGame()
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
         Random.InitState(System.DateTime.Now.Millisecond);
-        return 2;
+        return 1;
     }
     
     public int getMaxSpeed()
@@ -99,19 +112,10 @@ public void startGame()
 
     public void gameOver()
     {
-        gameOverObject.SetActive(true);
-        pauseGame(true);
-    }
-
-    public static void pauseGame(bool pause)
-    {
-        if (pause)
+        if (!debugInvincibleMode)
         {
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Time.timeScale = 1.0f;
+            gameOverObject.SetActive(true);
+            utils.pauseGame(true);
         }
     }
 
@@ -129,26 +133,23 @@ public void startGame()
 
         yield return new WaitForSeconds(1); // delay 1 second
         Destroy(tempCatBox);
-        spawnIndexTaken[spawnIndex] = false;
+        StartCoroutine(freeSpawnPoint(spawnIndex));
 
         //TODO: if cat created is charging cat, spawn lower? unless is flying then don't need
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
-        Transform t = createdCat.GetComponent<Transform>();
 
-        if (index == 1) //jumping cat is smaller
-        {
-            newLocalScale = new Vector3(0.4f, 0.4f, 1);
-        }
-        else
-        {
-            newLocalScale = new Vector3(0.5f, 0.5f, 1);
-        }
-
+        newLocalScale = createdCat.transform.localScale;
         if (spawnIndex >= 3) //should face the left
         {
             newLocalScale.x = -newLocalScale.x;
         }
+        createdCat.transform.localScale = newLocalScale;
+    }
 
-        t.localScale = newLocalScale;
+    IEnumerator freeSpawnPoint(int spawnIndex)
+    {
+        yield return new WaitForSeconds(1); // delay 1 second
+        spawnIndexTaken[spawnIndex] = false;
+        Debug.Log("spawnIndex " + spawnIndex + " has been freed");
     }
 }

@@ -24,7 +24,7 @@ public class JumpCatMovement : CatMovement
     {
         if (collider.gameObject.tag == "JumpPoint" && !isJumping)
         {
-            Debug.Log("I should jump here");
+            //Debug.Log("I should jump here");
             // TODO: Implement logic to not jump depending on mouse position
             if (mouse != null && mouse.GetComponent<Transform>().position.y > trans.position.y) //jump
             {

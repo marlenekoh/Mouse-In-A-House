@@ -240,6 +240,7 @@ MonoBehaviour:
   - {fileID: 79903444}
   gameOverObject: {fileID: 1756128343}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
+  debugInvincibleMode: 1
 --- !u!4 &58547805
 Transform:
   m_ObjectHideFlags: 0
@@ -706,6 +707,7 @@ GameObject:
   - component: {fileID: 185202535}
   - component: {fileID: 185202534}
   - component: {fileID: 185202533}
+  - component: {fileID: 185202536}
   m_Layer: 5
   m_Name: SettingsButtonOn
   m_TagString: Untagged
@@ -803,6 +805,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 185202536}
+        m_MethodName: pauseGame
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &185202534
@@ -839,6 +852,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 185202531}
   m_CullTransparentMesh: 0
+--- !u!114 &185202536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 185202531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fd8d35c0d413245ae4d0ca25cbd552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &200183729
 Prefab:
   m_ObjectHideFlags: 0
@@ -1055,7 +1079,7 @@ RectTransform:
   - {fileID: 259733169}
   - {fileID: 1937736}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1101,6 +1125,7 @@ GameObject:
   - component: {fileID: 259733172}
   - component: {fileID: 259733171}
   - component: {fileID: 259733170}
+  - component: {fileID: 259733173}
   m_Layer: 5
   m_Name: SettingsButtonOff
   m_TagString: Untagged
@@ -1198,6 +1223,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 259733173}
+        m_MethodName: pauseGame
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &259733171
@@ -1234,6 +1270,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 259733168}
   m_CullTransparentMesh: 0
+--- !u!114 &259733173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 259733168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fd8d35c0d413245ae4d0ca25cbd552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &263123903
 Prefab:
   m_ObjectHideFlags: 0
@@ -1839,7 +1886,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 448060588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.89, y: -0.8299999, z: 0}
+  m_LocalPosition: {x: 7.96, y: -0.8299999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1446027657}
@@ -2302,7 +2349,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 652709414}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.89, y: -3.09, z: 0}
+  m_LocalPosition: {x: 7.96, y: -3.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1446027657}
@@ -2910,7 +2957,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1029232820
 Prefab:
@@ -3009,7 +3056,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1061161785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.44, y: 0.48, z: 0.021484375}
+  m_LocalPosition: {x: -7.88, y: 0.48, z: 0.021484375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1703508507}
@@ -3019,7 +3066,7 @@ Transform:
   - {fileID: 320561858}
   - {fileID: 79903444}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1086295052 stripped
 Transform:
@@ -3147,7 +3194,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1152171287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.89, y: -5.21, z: 0}
+  m_LocalPosition: {x: 7.96, y: -5.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1446027657}
@@ -3804,7 +3851,7 @@ Transform:
   - {fileID: 652709415}
   - {fileID: 1152171288}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1454878466
 GameObject:
@@ -4189,7 +4236,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1682796626
 BoxCollider2D:
@@ -5020,7 +5067,7 @@ Transform:
   - {fileID: 1435195664}
   - {fileID: 1834353676}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1881936319
 BoxCollider2D:
