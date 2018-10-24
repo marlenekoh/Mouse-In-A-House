@@ -209,8 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1c1f71bfc7abc4484f95788e177e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftLimit: -20
-  rightLimit: 20
+  leftLimit: -12
+  rightLimit: 12
   jumpSpeedY: 450
 --- !u!212 &212989994815448628
 SpriteRenderer:
