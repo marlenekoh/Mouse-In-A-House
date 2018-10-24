@@ -14,6 +14,7 @@ public class CatMovement : MonoBehaviour
     protected GameObject mouse;
     protected int speed;
     protected int maxSpeed; //to vary according to adaptive difficulty
+    protected bool isStunned;
 
     protected void Start()
     {
@@ -22,19 +23,23 @@ public class CatMovement : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         Random.InitState(System.DateTime.Now.Millisecond);
         speed = Random.Range(3, GameManager.getInstance().getMaxSpeed());
+        isStunned = false;
         //myAnim = this.GetComponent<Animator>();
     }
 
     protected void FixedUpdate()
     {
         //Always move forward
-        Vector2 vel = rb.velocity;
-        vel.x = trans.right.x * speed;
-        if (trans.localScale.x < 0)
+        if (!isStunned)
         {
-            vel.x *= -1;
+            Vector2 vel = rb.velocity;
+            vel.x = trans.right.x * speed;
+            if (trans.localScale.x < 0)
+            {
+                vel.x *= -1;
+            }
+            rb.velocity = vel;
         }
-        rb.velocity = vel;
 
         // to destroy cat once it goes out of screen
         if (trans.position.x < leftLimit || trans.position.x > rightLimit) // kill cat if cat goes out of screen
@@ -52,5 +57,10 @@ public class CatMovement : MonoBehaviour
     public int getSpeed()
     {
         return speed;
+    }
+
+    public void setIsStunned(bool stun)
+    {
+        isStunned = stun;
     }
 }

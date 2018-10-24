@@ -16,14 +16,13 @@ public class GameManager : MonoBehaviour
     private GameObject mouse;
     private Utils utils;
     private bool stunModeOn;
-    private bool[] isStunned; //maybe can use stack instead
     private int[] catsKilled;
     private int[] catCount; // TODO: decide if in screen or total since start of game
     private bool[] spawnIndexTaken = new bool[6];
 
-    private readonly int BASIC_CAT_INDEX = 0;
-    private readonly int JUMPING_CAT_INDEX = 1;
-    private readonly int CHARGING_CAT_INDEX = 2;
+    private const int BASIC_CAT_INDEX = 0;
+    private const int JUMPING_CAT_INDEX = 1;
+    private const int CHARGING_CAT_INDEX = 2;
 
     private void Awake()
     {
@@ -43,22 +42,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //bool flag = false;
-        //if (stunModeOn)
-        //{
-        //    for (int i = 0; i < isStunned.Length; i++)
-        //    {
-        //        if (isStunned[i])
-        //        {
-        //            flag = true;
-        //            break;
-        //        }
-        //    }
-        //}
-        //if (!flag)
-        //{
-        //    stunModeOn = false;
-        //}
+        if (stunModeOn)
+        {
+            StartCoroutine(waitNSeconds(1));
+        }
     }
 
     public static GameManager getInstance()
@@ -134,22 +121,23 @@ public class GameManager : MonoBehaviour
     public void destroyCat(GameObject cat)
     {
         // TODO: Increment cat kill count
+        cat.SetActive(false);
+        StartCoroutine(waitNSeconds(5)); //don't kill it immediately
         Destroy(cat);
     }
 
     public void stunAllCats()
     {
-        //if (!stunModeOn)
-        //{
+        if (!stunModeOn)
+        {
             stunModeOn = true;
             GameObject[] existingCats = GameObject.FindGameObjectsWithTag("Cat");
-            isStunned = new bool[existingCats.Length];
 
             for (int i = 0; i < existingCats.Length; i++)
             {
                 StartCoroutine(stunCat(existingCats[i], i));
             }
-        //}
+        }
     }
 
     private int chooseCat()
@@ -157,7 +145,7 @@ public class GameManager : MonoBehaviour
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
         Random.InitState(System.DateTime.Now.Millisecond);
-        return JUMPING_CAT_INDEX;
+        return CHARGING_CAT_INDEX;
     }
     
     public int getMaxSpeed()
@@ -212,6 +200,12 @@ public class GameManager : MonoBehaviour
         createdCat.transform.localScale = newLocalScale;
     }
 
+    IEnumerator waitNSeconds(int n)
+    {
+        yield return new WaitForSeconds(n); // delay 1 second
+        stunModeOn = false;
+    }
+
     IEnumerator freeSpawnPoint(int spawnIndex)
     {
         yield return new WaitForSeconds(1); // delay 1 second
@@ -221,15 +215,38 @@ public class GameManager : MonoBehaviour
 
     IEnumerator stunCat(GameObject cat, int index)
     {
-        int originalSpeed = cat.GetComponent<CatMovement>().getSpeed();
+        int catIndex = -1;
+
         if (cat.GetComponent<ChargeCatMovement>() != null)
         {
-            Debug.Log("Charge cat's speed is " + originalSpeed);
+            cat.GetComponent<ChargeCatMovement>().setIsStunned(true);
+            Debug.Log("stun charge cats");
+            catIndex = CHARGING_CAT_INDEX;
         }
-        cat.GetComponent<CatMovement>().setSpeed(0);
-        isStunned[index] = true;
+        else if (cat.GetComponent<JumpCatMovement>() != null)
+        {
+            cat.GetComponent<JumpCatMovement>().setIsStunned(true);
+            catIndex = JUMPING_CAT_INDEX;
+        }
+        else if (cat.GetComponent<CatMovement>() != null)
+        {
+            cat.GetComponent<CatMovement>().setIsStunned(true);
+            catIndex = BASIC_CAT_INDEX;
+        }
+
         yield return new WaitForSeconds(1); // delay 1 second
-        cat.GetComponent<CatMovement>().setSpeed(originalSpeed);
-        isStunned[index] = false;
+
+        switch (catIndex)
+        {
+            case BASIC_CAT_INDEX:
+                cat.GetComponent<CatMovement>().setIsStunned(false);
+                break;
+            case JUMPING_CAT_INDEX:
+                cat.GetComponent<JumpCatMovement>().setIsStunned(false);
+                break;
+            case CHARGING_CAT_INDEX:
+                cat.GetComponent<ChargeCatMovement>().setIsStunned(false);
+                break;
+        }
     }
 }

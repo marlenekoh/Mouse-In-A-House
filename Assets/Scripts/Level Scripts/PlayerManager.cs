@@ -91,7 +91,8 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("You killed a cat!");
             // TODO: increment cat kill count
             // TODO: implement stun all cats when one cat dies
-            GameManager.getInstance().destroyCat(collision.gameObject.GetComponent<Transform>().parent.gameObject);
+            GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
+            GameManager.getInstance().destroyCat(deadCat);
             GameManager.getInstance().stunAllCats();
             GameManager.getInstance().spawnCat();
         }
