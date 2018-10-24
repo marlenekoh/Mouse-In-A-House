@@ -209,9 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a0e66e1faed4840a6c3a26f98c732a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  leftLimit: -11
-  rightLimit: 11
+  leftLimit: -12
+  rightLimit: 12
 --- !u!212 &212989994815448628
 SpriteRenderer:
   m_ObjectHideFlags: 1
