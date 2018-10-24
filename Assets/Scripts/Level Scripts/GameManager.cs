@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
         }
         mouse = GameObject.Find("Mouse");
         utils = new Utils();
-        stunModeOn = false;
         startGame();
     }
 
@@ -55,16 +54,11 @@ public class GameManager : MonoBehaviour
 
     public void startGame()
     {
+        stunModeOn = false;
         destroyExistingCats(); // to clear existing cats when restart game
         moveMouse();
         spawnCat(JUMPING_CAT_INDEX);
-        spawnCat(BASIC_CAT_INDEX);
         spawnCat(JUMPING_CAT_INDEX);
-        spawnCat(CHARGING_CAT_INDEX);
-        spawnCat(BASIC_CAT_INDEX);
-        //spawnCat(0);
-        //spawnCat(2);
-        //spawnCat(1);
         gameOverObject.SetActive(false);
         utils.pauseGame(false); 
     }
@@ -145,7 +139,7 @@ public class GameManager : MonoBehaviour
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
         Random.InitState(System.DateTime.Now.Millisecond);
-        return CHARGING_CAT_INDEX;
+        return JUMPING_CAT_INDEX;
     }
     
     public int getMaxSpeed()
@@ -167,11 +161,12 @@ public class GameManager : MonoBehaviour
     {
         Vector3 newLocalScale;
 
-        GameObject tempCatBox = Instantiate(catBox, boxSpawnPoints[spawnIndex]);
+        GameObject tempCatBox = Instantiate(catBox, boxSpawnPoints[spawnIndex].position, boxSpawnPoints[spawnIndex].rotation);
         if (spawnIndex < 3) //should face the right
         {
             newLocalScale = tempCatBox.transform.localScale;
             newLocalScale.x = -newLocalScale.x;
+            tempCatBox.transform.localScale = newLocalScale;
             tempCatBox.transform.localScale = newLocalScale;
         }
 
@@ -179,7 +174,7 @@ public class GameManager : MonoBehaviour
         Destroy(tempCatBox);
         StartCoroutine(freeSpawnPoint(spawnIndex));
 
-        GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
+        GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex].position, spawnPoints[0].rotation);
 
         newLocalScale = createdCat.transform.localScale;
         Vector3 pos = createdCat.transform.position;
@@ -194,7 +189,7 @@ public class GameManager : MonoBehaviour
         }
         else if (index == JUMPING_CAT_INDEX)
         {
-            pos.y += 0.4f;
+            pos.y += 0.3f;
             createdCat.transform.position = pos;
         }
         createdCat.transform.localScale = newLocalScale;

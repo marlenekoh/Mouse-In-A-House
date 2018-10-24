@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 4203634245506428}
   - component: {fileID: 61734133179447940}
   m_Layer: 8
-  m_Name: catfoot
+  m_Name: cathead
   m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1240633943851144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.229, y: 2.4, z: 0}
+  m_LocalPosition: {x: -4.825774, y: -6.8216333, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4261353640119930}
@@ -157,10 +157,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.63, y: 0.3}
+  m_Offset: {x: -0.0024392605, y: -0.9457636}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -171,7 +171,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.02, y: 1.8}
+  m_Size: {x: 2.2848783, y: 0.47674942}
   m_EdgeRadius: 0
 --- !u!61 &61734133179447940
 BoxCollider2D:
@@ -182,10 +182,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.01}
+  m_Offset: {x: 0.63970757, y: 0.3112526}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -196,7 +196,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.26, y: 0.34}
+  m_Size: {x: 0.9805851, y: 1.6899757}
   m_EdgeRadius: 0
 --- !u!114 &114244465758119334
 MonoBehaviour:
