@@ -70,8 +70,14 @@ public class GameManager : MonoBehaviour
     {
         destroyExistingCats(); // to clear existing cats when restart game
         moveMouse();
-        spawnCat(1);
-        spawnCat(0);
+        spawnCat(JUMPING_CAT_INDEX);
+        spawnCat(BASIC_CAT_INDEX);
+        spawnCat(JUMPING_CAT_INDEX);
+        spawnCat(CHARGING_CAT_INDEX);
+        spawnCat(BASIC_CAT_INDEX);
+        //spawnCat(0);
+        //spawnCat(2);
+        //spawnCat(1);
         gameOverObject.SetActive(false);
         utils.pauseGame(false); 
     }
@@ -88,6 +94,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(existingCats[i]);
         }
+        GameObject[] existingCatBoxes = GameObject.FindGameObjectsWithTag("CatBox");
+        for (int i = 0; i < existingCatBoxes.Length; i++)
+        {
+            Destroy(existingCatBoxes[i]);
+        }
     }
 
     public void spawnCat()
@@ -102,17 +113,18 @@ public class GameManager : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
 
         // to prevent cats from spawning in the same spot
-        int spawnIndex = Random.Range(0, 5);
+        int spawnIndex = (int) Mathf.Floor(Random.Range(0.0f, 5.9f));
         if (!spawnIndexTaken[spawnIndex])
         {
             spawnIndexTaken[spawnIndex] = true;
         }
-        Debug.Log("spawnIndex " + spawnIndex + " has been taken");
+        //Debug.Log("spawnIndex " + spawnIndex + " has been taken");
         while (!spawnIndexTaken[spawnIndex])
         {
-            spawnIndex = Random.Range(0, 5);
+            spawnIndex = Random.Range(0, 6);
+            spawnIndex = 1;
             spawnIndexTaken[spawnIndex] = true;
-            Debug.Log("spawnIndex " + spawnIndex + " has been taken2");
+            //Debug.Log("spawnIndex " + spawnIndex + " has been taken2");
 
         }
 
@@ -145,7 +157,7 @@ public class GameManager : MonoBehaviour
         // TODO: Decide which cat to spawn based on number of cats killed etc etc
         // TODO: Increment cat spawn count
         Random.InitState(System.DateTime.Now.Millisecond);
-        return 1;
+        return JUMPING_CAT_INDEX;
     }
     
     public int getMaxSpeed()
@@ -179,13 +191,23 @@ public class GameManager : MonoBehaviour
         Destroy(tempCatBox);
         StartCoroutine(freeSpawnPoint(spawnIndex));
 
-        //TODO: if cat created is charging cat, spawn lower? unless is flying then don't need
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex]);
 
         newLocalScale = createdCat.transform.localScale;
+        Vector3 pos = createdCat.transform.position;
         if (spawnIndex >= 3) //should face the left
         {
             newLocalScale.x = -newLocalScale.x;
+        }
+        if (index == CHARGING_CAT_INDEX)
+        {
+            pos.y -= 0.4f;
+            createdCat.transform.position = pos;
+        }
+        else if (index == JUMPING_CAT_INDEX)
+        {
+            pos.y += 0.4f;
+            createdCat.transform.position = pos;
         }
         createdCat.transform.localScale = newLocalScale;
     }
@@ -194,12 +216,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1); // delay 1 second
         spawnIndexTaken[spawnIndex] = false;
-        Debug.Log("spawnIndex " + spawnIndex + " has been freed");
+        //Debug.Log("spawnIndex " + spawnIndex + " has been freed");
     }
 
     IEnumerator stunCat(GameObject cat, int index)
     {
         int originalSpeed = cat.GetComponent<CatMovement>().getSpeed();
+        if (cat.GetComponent<ChargeCatMovement>() != null)
+        {
+            Debug.Log("Charge cat's speed is " + originalSpeed);
+        }
         cat.GetComponent<CatMovement>().setSpeed(0);
         isStunned[index] = true;
         yield return new WaitForSeconds(1); // delay 1 second

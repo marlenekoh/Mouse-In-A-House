@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212519887282011742}
   m_Layer: 8
   m_Name: catbox
-  m_TagString: Untagged
+  m_TagString: CatBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
