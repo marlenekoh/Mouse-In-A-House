@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         mouse = GameObject.Find("Mouse");
-        utils = new Utils();
+        utils = gameObject.GetComponent<Utils>();
         startGame();
     }
 
