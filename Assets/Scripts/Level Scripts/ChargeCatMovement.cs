@@ -48,4 +48,14 @@ public class ChargeCatMovement : CatMovement
         yield return new WaitForSeconds(1); // delay 1 second
         speed = 10;
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // if cat exits the screen
+        if (collision.gameObject.tag == "StopPoint")
+        {
+            GameManager.getInstance().destroyCat(gameObject);
+            GameManager.getInstance().spawnCat();
+        }
+    }
 }

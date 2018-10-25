@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    private static GameManager Instance;
 
     public GameObject[] cats;
     public Transform[] spawnPoints;
@@ -12,13 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverObject;
     public GameObject catBox;
     public bool debugInvincibleMode;
+    public int[] catsKilled;
 
     private GameObject mouse;
     private Utils utils;
     private bool stunModeOn;
-    private int[] catsKilled;
     private int[] catCount; // TODO: decide if in screen or total since start of game
     private bool[] spawnIndexTaken = new bool[6];
+    private float spawnDelay;
 
     private const int BASIC_CAT_INDEX = 0;
     private const int JUMPING_CAT_INDEX = 1;
@@ -57,8 +58,12 @@ public class GameManager : MonoBehaviour
         stunModeOn = false;
         destroyExistingCats(); // to clear existing cats when restart game
         moveMouse();
-        spawnCat(JUMPING_CAT_INDEX);
-        spawnCat(JUMPING_CAT_INDEX);
+        catsKilled = new int[cats.Length];
+        catCount = new int[cats.Length];
+        spawnDelay = 1.0f;
+
+        spawnCat(BASIC_CAT_INDEX);
+
         gameOverObject.SetActive(false);
         utils.pauseGame(false); 
     }
@@ -89,8 +94,7 @@ public class GameManager : MonoBehaviour
 
     public void spawnCat(int index)
     {
-        //Debug.Log("I spawned cat with index " + index);
-
+        StartCoroutine(waitNSeconds(spawnDelay));
         Random.InitState(System.DateTime.Now.Millisecond);
 
         // to prevent cats from spawning in the same spot
@@ -114,9 +118,8 @@ public class GameManager : MonoBehaviour
 
     public void destroyCat(GameObject cat)
     {
-        // TODO: Increment cat kill count
         cat.SetActive(false);
-        StartCoroutine(waitNSeconds(5)); //don't kill it immediately
+        StartCoroutine(waitNSeconds(1)); //don't kill it immediately
         Destroy(cat);
     }
 
@@ -195,7 +198,7 @@ public class GameManager : MonoBehaviour
         createdCat.transform.localScale = newLocalScale;
     }
 
-    IEnumerator waitNSeconds(int n)
+    IEnumerator waitNSeconds(float n)
     {
         yield return new WaitForSeconds(n); // delay 1 second
         stunModeOn = false;
@@ -203,7 +206,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator freeSpawnPoint(int spawnIndex)
     {
-        yield return new WaitForSeconds(1); // delay 1 second
+        yield return new WaitForSeconds(2);
         spawnIndexTaken[spawnIndex] = false;
         //Debug.Log("spawnIndex " + spawnIndex + " has been freed");
     }

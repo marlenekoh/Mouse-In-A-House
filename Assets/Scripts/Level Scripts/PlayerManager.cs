@@ -8,9 +8,13 @@ public class PlayerManager : MonoBehaviour
     public float speedX;
     public float jumpSpeedY;
 
-    bool facingRight = true;
-    bool goingRight = true;
-    bool isJumping = false;
+    private bool facingRight = true;
+    private bool goingRight = true;
+    private bool isJumping = false;
+
+    private const int BASIC_CAT_INDEX = 0;
+    private const int JUMPING_CAT_INDEX = 1;
+    private const int CHARGING_CAT_INDEX = 2;
 
     Rigidbody2D rb;
 
@@ -88,10 +92,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "CatBack") // then kill cat
         {
-            Debug.Log("You killed a cat!");
-            // TODO: increment cat kill count
-            // TODO: implement stun all cats when one cat dies
+
+            // increment cat kill count
+            int catIndex = -1;
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
+            if (deadCat.GetComponent<ChargeCatMovement>() != null)
+            {
+                catIndex = CHARGING_CAT_INDEX;
+            }
+            else if (deadCat.GetComponent<JumpCatMovement>() != null)
+            {
+                catIndex = JUMPING_CAT_INDEX;
+            }
+            else if (deadCat.GetComponent<CatMovement>() != null)
+            {
+                catIndex = BASIC_CAT_INDEX;
+            }
+            GameManager.getInstance().catsKilled[catIndex]++;
+
             GameManager.getInstance().destroyCat(deadCat);
             GameManager.getInstance().stunAllCats();
             GameManager.getInstance().spawnCat();
@@ -100,7 +118,6 @@ public class PlayerManager : MonoBehaviour
         // if mouse touches front of cat
         if (collision.gameObject.tag == "Cat") // then game over
         {
-            // game over code
             Debug.Log("Game over!");
             GameManager.getInstance().gameOver();
         }

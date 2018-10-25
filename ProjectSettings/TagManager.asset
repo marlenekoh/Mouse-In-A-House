@@ -10,6 +10,7 @@ TagManager:
   - Cat
   - JumpPoint2
   - CatBox
+  - StopPoint
   layers:
   - Default
   - TransparentFX

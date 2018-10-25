@@ -23,8 +23,6 @@ public class JumpCatMovement : CatMovement
     {
         if (collider.gameObject.tag == "JumpPoint" && !isJumping)
         {
-            //Debug.Log("I should jump here");
-            // TODO: Implement logic to not jump depending on mouse position
             if (mouse != null && mouse.GetComponent<Transform>().position.y > trans.position.y) //jump
             {
                 isJumping = true;
@@ -40,6 +38,12 @@ public class JumpCatMovement : CatMovement
         {
             rb.velocity = new Vector3(0, 0, 0);
             isJumping = false;
+        }
+        // if cat exits the screen
+        if (collision.gameObject.tag == "StopPoint")
+        {
+            GameManager.getInstance().destroyCat(gameObject);
+            GameManager.getInstance().spawnCat();
         }
     }
 }

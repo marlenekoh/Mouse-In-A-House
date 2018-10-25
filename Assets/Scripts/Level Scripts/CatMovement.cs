@@ -13,7 +13,7 @@ public class CatMovement : MonoBehaviour
     protected Animator anim;
     protected GameObject mouse;
     protected int speed;
-    protected int maxSpeed; //to vary according to adaptive difficulty
+    protected int maxSpeed; // TODO: to vary according to adaptive difficulty
     protected bool isStunned;
 
     protected void Start()
@@ -40,13 +40,6 @@ public class CatMovement : MonoBehaviour
             }
             rb.velocity = vel;
         }
-
-        // to destroy cat once it goes out of screen
-        if (trans.position.x < leftLimit || trans.position.x > rightLimit) // kill cat if cat goes out of screen
-        {
-            Destroy(gameObject);
-            GameManager.getInstance().spawnCat();
-        }
     }
 
     public void setSpeed(int newSpeed)
@@ -62,5 +55,15 @@ public class CatMovement : MonoBehaviour
     public void setIsStunned(bool stun)
     {
         isStunned = stun;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // if cat exits the screen
+        if (collision.gameObject.tag == "StopPoint")
+        {
+            GameManager.getInstance().destroyCat(gameObject);
+            GameManager.getInstance().spawnCat();
+        }
     }
 }
