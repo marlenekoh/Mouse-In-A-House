@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private bool stunModeOn;
     private int[] catCount; // TODO: decide if in screen or total since start of game, do we really need this?
     public bool[] spawnIndexTaken;
+    public List<Transform> spawnIndexTakenList;
 
     private const int BASIC_CAT_INDEX = 0;
     private const int JUMPING_CAT_INDEX = 1;
@@ -67,11 +68,12 @@ public class GameManager : MonoBehaviour
         catCount = new int[cats.Length];
         catsToSpawn = new int[cats.Length];
         spawnIndexTaken = new bool[6];
+        spawnIndexTakenList = new List<Transform>();
         level = 1;
         totalCats = 1;
         InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
-        spawnCatsAfterN(0, spawnDelay);
+    spawnCatsAfterN(0, spawnDelay);
 
         gameOverObject.SetActive(false);
         utils.pauseGame(false); 
@@ -157,14 +159,21 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < catsToSpawn[i]; j++) // for number of times of each cat
             {
                 // to prevent cats from spawning in the same spot
-                int spawnIndex = (int)Mathf.Floor(Random.Range(0.0f, 5.9f));
+                int spawnIndex = (int) Mathf.Floor(Random.Range(0.0f, 5.9f));
 
-                while (!spawnIndexTaken[spawnIndex])
+                while (spawnIndexTakenList.Count < 6 && spawnIndexTakenList.Contains(spawnPoints[spawnIndex]))
                 {
-                    spawnIndex = Random.Range(0, 6);
-                    spawnIndexTaken[spawnIndex] = true;
+                    spawnIndex = (int)Mathf.Floor(Random.Range(0, 5.9f));
                     Debug.Log(spawnIndex);
                 }
+                spawnIndexTakenList.Add(spawnPoints[spawnIndex]);
+
+                //while (!spawnIndexTaken[spawnIndex])
+                //{
+                //    spawnIndex = (int) Mathf.Floor(Random.Range(0, 5.9f));
+                //    spawnIndexTaken[spawnIndex] = true;
+                //    Debug.Log(spawnIndex);
+                //}
                 StartCoroutine(spawnCatBox(i, spawnIndex));
             }
         }
@@ -222,7 +231,7 @@ public class GameManager : MonoBehaviour
     
     public int getMaxSpeed()
     {
-        // TODO: depends on adaptive difficulty level
+        // TODO: depends on adaptive difficulty level -- maybe not implementing
         return 3;
     }
 
@@ -310,7 +319,7 @@ public class GameManager : MonoBehaviour
             catIndex = BASIC_CAT_INDEX;
         }
 
-        yield return new WaitForSeconds(1); // delay 1 second
+        yield return new WaitForSeconds(1.5f); // delay 1 second
 
         switch (catIndex)
         {
