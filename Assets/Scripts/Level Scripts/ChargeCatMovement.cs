@@ -4,41 +4,50 @@ using UnityEngine;
 
 public class ChargeCatMovement : CatMovement
 {
-    private Vector3 stopLocation;
+    public float startSpeed;
+    public float chargeSpeed;
+
     private bool walkedToWindup = false;
+    private bool hasWindup = false;
 
     // todo: implement animation
     private new void Start()
     {
         base.Start();
-        speed = 1;
+        speed = startSpeed;
 
-        Vector3 stopLocation = gameObject.transform.position;
-        if (stopLocation.x < 0)
-        {
-            stopLocation.x += 1;
-        }
-        else
-        {
-            stopLocation.x -= 1;
-        }
         StartCoroutine(walkToWindup());
     }
 
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        if (walkedToWindup)
+        //TODO: add debug statements
+        
+        if (isStunned)
         {
-            StartCoroutine(windup());
-            walkedToWindup = false;
+            //Debug.Log("a");
+            speed = 0;
+        }
+        else if (walkedToWindup)
+        {
+            //Debug.Log("b");
+            speed = 10;
+            //speed = 0;
+            //StartCoroutine(windup());
+            //walkedToWindup = false;
+        }
+
+        if (!isStunned)
+        {
+            //Debug.Log("I'm not stunned");
         }
     }
 
 
     IEnumerator walkToWindup()
     {
-        yield return new WaitForSeconds(1); // delay 1 second
+        yield return new WaitForSeconds(1f); // move this distance
         speed = 0;
         walkedToWindup = true;
     }
@@ -46,7 +55,7 @@ public class ChargeCatMovement : CatMovement
     IEnumerator windup()
     {
         yield return new WaitForSeconds(1); // delay 1 second
-        speed = 10;
+        hasWindup = true;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -54,8 +63,7 @@ public class ChargeCatMovement : CatMovement
         // if cat exits the screen
         if (collision.gameObject.tag == "StopPoint")
         {
-            GameManager.getInstance().destroyCat(gameObject);
-            GameManager.getInstance().spawnCat();
+            onCatExitScreen();
         }
     }
 }

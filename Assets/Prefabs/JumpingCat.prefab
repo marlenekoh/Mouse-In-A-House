@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61454873272075758}
   - component: {fileID: 50064460488741302}
   - component: {fileID: 114531656712751094}
+  - component: {fileID: 95526876414203266}
   m_Layer: 8
   m_Name: JumpingCat
   m_TagString: Cat
@@ -95,8 +96,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1002028873182414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.745296, y: -6.947428, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalPosition: {x: -4.6526637, y: -6.790632, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4886377313120846}
   - {fileID: 4259062898815556}
@@ -135,7 +136,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.6468957, y: 0.12011662}
+  m_Offset: {x: 0.5979726, y: 0.29761246}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -146,7 +147,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9662086, y: 1.3077066}
+  m_Size: {x: 0.8683623, y: 0.7245429}
   m_EdgeRadius: 0
 --- !u!61 &61454873272075758
 BoxCollider2D:
@@ -160,18 +161,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019043565, y: -0.92074555}
+  m_Offset: {x: 0.08518922, y: -0.54674715}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.34, y: 2.49}
+    oldSize: {x: 2.61, y: 1.78}
     newSize: {x: 2.34, y: 2.49}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2419126, y: 0.43571365}
+  m_Size: {x: 1.8305283, y: 0.32525337}
   m_EdgeRadius: 0
 --- !u!61 &61749244656674140
 BoxCollider2D:
@@ -185,7 +186,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.05527904, y: 0.1331238}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -196,8 +197,26 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.57, y: 0.36}
+  m_Size: {x: 0.45944184, y: 0.31290403}
   m_EdgeRadius: 0
+--- !u!95 &95526876414203266
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1002028873182414}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ede842ce0e04b6349887eb0219da09b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114531656712751094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,8 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1c1f71bfc7abc4484f95788e177e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftLimit: -12
-  rightLimit: 12
   jumpSpeedY: 450
 --- !u!212 &212989994815448628
 SpriteRenderer:
@@ -247,9 +264,9 @@ SpriteRenderer:
   m_SortingLayerID: -492867227
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cd9275ce970a97b48a6094dda170e98d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b503e4c82be51cd4c83c6833b7090870, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.34, y: 2.49}

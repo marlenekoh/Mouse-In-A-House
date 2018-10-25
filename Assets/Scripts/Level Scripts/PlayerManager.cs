@@ -27,19 +27,17 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
 
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX;
-
-        transform.Translate(x, 0, 0);
+        float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
+        rb.velocity = new Vector3(x, rb.velocity.y, 0);
 
 
         // move right, stop
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && goingRight)
         {
             goingRight = false;
         }
-
         // move left, stop
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && !goingRight)
         {
             goingRight = true;
         }
@@ -47,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         if (!isJumping && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
-            rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY));
+            rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
 
         // add fake gravity to land faster
@@ -81,7 +79,6 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.tag == "Cat") // then kill player
         {
             // game over code
-            Debug.Log("Game over!");
             GameManager.getInstance().gameOver();
         }
 
@@ -92,27 +89,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "CatBack") // then kill cat
         {
-
-            // increment cat kill count
-            int catIndex = -1;
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
-            if (deadCat.GetComponent<ChargeCatMovement>() != null)
-            {
-                catIndex = CHARGING_CAT_INDEX;
-            }
-            else if (deadCat.GetComponent<JumpCatMovement>() != null)
-            {
-                catIndex = JUMPING_CAT_INDEX;
-            }
-            else if (deadCat.GetComponent<CatMovement>() != null)
-            {
-                catIndex = BASIC_CAT_INDEX;
-            }
-            GameManager.getInstance().catsKilled[catIndex]++;
-
-            GameManager.getInstance().destroyCat(deadCat);
-            GameManager.getInstance().stunAllCats();
-            GameManager.getInstance().spawnCat();
+            GameManager.getInstance().onSuccessfulKill(deadCat);
         }
 
         // if mouse touches front of cat

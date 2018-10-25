@@ -6,13 +6,11 @@ using UnityEngine;
 public class CatMovement : MonoBehaviour
 {
     //public LayerMask enemyMask;
-    public float leftLimit, rightLimit;
-
     protected Rigidbody2D rb;
     protected Transform trans;
     protected Animator anim;
     protected GameObject mouse;
-    protected int speed;
+    protected float speed;
     protected int maxSpeed; // TODO: to vary according to adaptive difficulty
     protected bool isStunned;
 
@@ -42,12 +40,18 @@ public class CatMovement : MonoBehaviour
         }
     }
 
+    protected void onCatExitScreen()
+    {
+        GameManager.getInstance().destroyCat(gameObject);
+        GameManager.getInstance().updateSpawnDelay();
+    }
+
     public void setSpeed(int newSpeed)
     {
         speed = newSpeed;
     }
 
-    public int getSpeed()
+    public float getSpeed()
     {
         return speed;
     }
@@ -62,8 +66,7 @@ public class CatMovement : MonoBehaviour
         // if cat exits the screen
         if (collision.gameObject.tag == "StopPoint")
         {
-            GameManager.getInstance().destroyCat(gameObject);
-            GameManager.getInstance().spawnCat();
+            onCatExitScreen();
         }
     }
 }

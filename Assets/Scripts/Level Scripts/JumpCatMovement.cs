@@ -42,8 +42,7 @@ public class JumpCatMovement : CatMovement
         // if cat exits the screen
         if (collision.gameObject.tag == "StopPoint")
         {
-            GameManager.getInstance().destroyCat(gameObject);
-            GameManager.getInstance().spawnCat();
+            onCatExitScreen();
         }
     }
 }

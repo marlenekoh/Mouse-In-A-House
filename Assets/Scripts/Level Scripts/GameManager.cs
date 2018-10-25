@@ -13,13 +13,18 @@ public class GameManager : MonoBehaviour
     public GameObject catBox;
     public bool debugInvincibleMode;
     public int[] catsKilled;
+    public int[] catsToSpawn;
+    public int sameLocationSpawnDelay;
+    public float spawnDelay;
+
+    private int level = 1;
+    private int totalCats = 1;
 
     private GameObject mouse;
     private Utils utils;
     private bool stunModeOn;
-    private int[] catCount; // TODO: decide if in screen or total since start of game
-    private bool[] spawnIndexTaken = new bool[6];
-    private float spawnDelay;
+    private int[] catCount; // TODO: decide if in screen or total since start of game, do we really need this?
+    public bool[] spawnIndexTaken;
 
     private const int BASIC_CAT_INDEX = 0;
     private const int JUMPING_CAT_INDEX = 1;
@@ -60,12 +65,24 @@ public class GameManager : MonoBehaviour
         moveMouse();
         catsKilled = new int[cats.Length];
         catCount = new int[cats.Length];
-        spawnDelay = 1.0f;
+        catsToSpawn = new int[cats.Length];
+        spawnIndexTaken = new bool[6];
+        level = 1;
+        totalCats = 1;
+        InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
-        spawnCat(BASIC_CAT_INDEX);
+        spawnCatsAfterN(0, spawnDelay);
 
         gameOverObject.SetActive(false);
         utils.pauseGame(false); 
+    }
+
+    private void spawnCatsAfterN(float delay, float n)
+    {
+        CancelInvoke();
+        //Debug.Log("invoke repeating, spawnDelay " + n);
+        InvokeRepeating("spawnCat", delay, n);
+        InvokeRepeating("increaseLevel", delay, n);
     }
 
     private void moveMouse()
@@ -87,39 +104,97 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void spawnCat()
+    private void increaseLevel()
     {
-        spawnCat(chooseCat());
+        level += 1;
+        Debug.Log("level" + level);
+        if (level%5 == 0)
+        {
+            Debug.Log("totalcats " + totalCats);
+            totalCats++;
+        }
     }
 
-    public void spawnCat(int index)
+    public void spawnCat()
     {
-        StartCoroutine(waitNSeconds(spawnDelay));
         Random.InitState(System.DateTime.Now.Millisecond);
 
-        // to prevent cats from spawning in the same spot
-        int spawnIndex = (int) Mathf.Floor(Random.Range(0.0f, 5.9f));
-        if (!spawnIndexTaken[spawnIndex])
+        switch (level)
         {
-            spawnIndexTaken[spawnIndex] = true;
+            case 1:
+                catsToSpawn[BASIC_CAT_INDEX] = 1;
+                catsToSpawn[JUMPING_CAT_INDEX] = 0;
+                catsToSpawn[CHARGING_CAT_INDEX] = 0;
+                break;
+            case 2:
+                catsToSpawn[BASIC_CAT_INDEX] = 0;
+                catsToSpawn[JUMPING_CAT_INDEX] = 1;
+                catsToSpawn[CHARGING_CAT_INDEX] = 0;
+                break;
+            case 3:
+                catsToSpawn[BASIC_CAT_INDEX] = 0;
+                catsToSpawn[JUMPING_CAT_INDEX] = 0;
+                catsToSpawn[CHARGING_CAT_INDEX] = 1;
+                break;
+            default:
+                Random.InitState(System.DateTime.Now.Millisecond);
+                int temp1 = totalCats;
+                for (int i=0; i<catsToSpawn.Length-1; i++)
+                {
+                    int temp = Random.Range(0, temp1 + 1);
+                    catsToSpawn[i] = temp;
+                    temp1 -= temp;
+                    catsToSpawn[i] = temp;
+                }
+                catsToSpawn[catsToSpawn.Length - 1] = temp1;
+
+                break;
         }
-        //Debug.Log("spawnIndex " + spawnIndex + " has been taken");
-        while (!spawnIndexTaken[spawnIndex])
+
+
+        for (int i = 0; i < catsToSpawn.Length; i++) // for each type of cat
         {
-            spawnIndex = Random.Range(0, 6);
-            spawnIndex = 1;
-            spawnIndexTaken[spawnIndex] = true;
-            //Debug.Log("spawnIndex " + spawnIndex + " has been taken2");
+            for (int j = 0; j < catsToSpawn[i]; j++) // for number of times of each cat
+            {
+                // to prevent cats from spawning in the same spot
+                int spawnIndex = (int)Mathf.Floor(Random.Range(0.0f, 5.9f));
 
+                while (!spawnIndexTaken[spawnIndex])
+                {
+                    spawnIndex = Random.Range(0, 6);
+                    spawnIndexTaken[spawnIndex] = true;
+                    Debug.Log(spawnIndex);
+                }
+                StartCoroutine(spawnCatBox(i, spawnIndex));
+            }
         }
+    }
 
-        StartCoroutine(spawnCatBox(index, spawnIndex));
+    public void onSuccessfulKill(GameObject cat)
+    {
+        int catIndex = -1;
+        if (cat.GetComponent<ChargeCatMovement>() != null)
+        {
+            catIndex = CHARGING_CAT_INDEX;
+        }
+        else if (cat.GetComponent<JumpCatMovement>() != null)
+        {
+            catIndex = JUMPING_CAT_INDEX;
+        }
+        else if (cat.GetComponent<CatMovement>() != null)
+        {
+            catIndex = BASIC_CAT_INDEX;
+        }
+        catsKilled[catIndex]++;
+        destroyCat(cat);
+        stunAllCats();
+
     }
 
     public void destroyCat(GameObject cat)
     {
         cat.SetActive(false);
-        StartCoroutine(waitNSeconds(1)); //don't kill it immediately
+        StartCoroutine(waitNSeconds(2)); //don't kill it immediately
         Destroy(cat);
     }
 
@@ -160,6 +235,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void updateSpawnDelay()
+    {
+        // currently spawndelay is decreasing at rate of 0.15 because 3 cats
+        if (spawnDelay > 0)
+        {
+            spawnDelay -= 0.05f;
+            spawnCatsAfterN(spawnDelay, spawnDelay);
+        }
+    }
+
     IEnumerator spawnCatBox(int index, int spawnIndex)
     {
         Vector3 newLocalScale;
@@ -175,7 +260,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1); // delay 1 second
         Destroy(tempCatBox);
-        StartCoroutine(freeSpawnPoint(spawnIndex));
+        //StartCoroutine(freeSpawnPoint(spawnIndex));
 
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex].position, spawnPoints[0].rotation);
 
@@ -187,12 +272,7 @@ public class GameManager : MonoBehaviour
         }
         if (index == CHARGING_CAT_INDEX)
         {
-            pos.y -= 0.4f;
-            createdCat.transform.position = pos;
-        }
-        else if (index == JUMPING_CAT_INDEX)
-        {
-            pos.y += 0.3f;
+            pos.y += 0.2f;
             createdCat.transform.position = pos;
         }
         createdCat.transform.localScale = newLocalScale;
@@ -206,9 +286,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator freeSpawnPoint(int spawnIndex)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(sameLocationSpawnDelay);
         spawnIndexTaken[spawnIndex] = false;
-        //Debug.Log("spawnIndex " + spawnIndex + " has been freed");
     }
 
     IEnumerator stunCat(GameObject cat, int index)
@@ -218,7 +297,6 @@ public class GameManager : MonoBehaviour
         if (cat.GetComponent<ChargeCatMovement>() != null)
         {
             cat.GetComponent<ChargeCatMovement>().setIsStunned(true);
-            Debug.Log("stun charge cats");
             catIndex = CHARGING_CAT_INDEX;
         }
         else if (cat.GetComponent<JumpCatMovement>() != null)
