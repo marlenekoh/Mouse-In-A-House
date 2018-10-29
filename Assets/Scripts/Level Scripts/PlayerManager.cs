@@ -24,32 +24,33 @@ public class PlayerManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-
+        // move left, stop
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
-        rb.velocity = new Vector3(x, rb.velocity.y, 0);
 
 
-        // move right, stop
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && goingRight)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            x = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             goingRight = false;
         }
-        // move left, stop
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && !goingRight)
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             goingRight = true;
         }
+        rb.velocity = new Vector3(x, rb.velocity.y, 0);
 
-        if (!isJumping && Input.GetKeyDown(KeyCode.Space))
+        if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             isJumping = true;
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
-
         // add fake gravity to land faster
-        if (isJumping)
+        else if (isJumping)
         {
             Vector3 vel = rb.velocity;
             vel.y -= 15 * Time.deltaTime;
@@ -69,9 +70,9 @@ public class PlayerManager : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // for jump
-        if (collision.gameObject.tag == "Ground" && rb.velocity.y == 0)
+        if (collision.gameObject.tag == "Ground" && rb.velocity.y <= 0)
         {
-            rb.velocity = new Vector3(0,0,0);
+            rb.velocity = new Vector3(0, 0, 0);
             isJumping = false;
         }
 
@@ -83,7 +84,7 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
-    
+
     // on collision with other cats
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -96,7 +97,6 @@ public class PlayerManager : MonoBehaviour
         // if mouse touches front of cat
         if (collision.gameObject.tag == "Cat") // then game over
         {
-            Debug.Log("Game over!");
             GameManager.getInstance().gameOver();
         }
     }

@@ -29,7 +29,11 @@ public class CatMovement : MonoBehaviour
     protected void FixedUpdate()
     {
         //Always move forward
-        if (!isStunned)
+        if (isStunned)
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+        }
+        else
         {
             Vector2 vel = rb.velocity;
             vel.x = trans.right.x * speed;

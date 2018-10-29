@@ -11,7 +11,7 @@ public class ChargeCatMovement : CatMovement
     private bool hasWindup = false;
 
     // todo: implement animation
-    private new void Start()
+    protected new void Start()
     {
         base.Start();
         speed = startSpeed;
@@ -22,32 +22,16 @@ public class ChargeCatMovement : CatMovement
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        //TODO: add debug statements
-        
-        if (isStunned)
-        {
-            //Debug.Log("a");
-            speed = 0;
-        }
-        else if (walkedToWindup)
-        {
-            //Debug.Log("b");
-            speed = 10;
-            //speed = 0;
-            //StartCoroutine(windup());
-            //walkedToWindup = false;
-        }
 
-        if (!isStunned)
+        if (walkedToWindup && !isStunned)
         {
-            //Debug.Log("I'm not stunned");
+            speed = chargeSpeed;
         }
     }
 
-
     IEnumerator walkToWindup()
     {
-        yield return new WaitForSeconds(1f); // move this distance
+        yield return new WaitForSeconds(1.5f); // move this distance
         speed = 0;
         walkedToWindup = true;
     }

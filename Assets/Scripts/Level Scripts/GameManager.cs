@@ -17,8 +17,10 @@ public class GameManager : MonoBehaviour
     public int sameLocationSpawnDelay;
     public float spawnDelay;
 
+    // for adaptive difficulty
     private int level = 1;
     private int totalCats = 1;
+    private float gameStartTime;
 
     private GameObject mouse;
     private Utils utils;
@@ -73,10 +75,10 @@ public class GameManager : MonoBehaviour
         totalCats = 1;
         InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
-    spawnCatsAfterN(0, spawnDelay);
+        spawnCatsAfterN(0, spawnDelay);
 
         gameOverObject.SetActive(false);
-        utils.pauseGame(false); 
+        utils.pauseGame(false);
     }
 
     private void spawnCatsAfterN(float delay, float n)
@@ -109,12 +111,9 @@ public class GameManager : MonoBehaviour
     private void increaseLevel()
     {
         level += 1;
-        Debug.Log("level" + level);
-        if (level%5 == 0)
-        {
-            Debug.Log("totalcats " + totalCats);
-            totalCats++;
-        }
+        //Debug.Log("level" + level);
+        totalCats = (int)Mathf.Floor(0.5f * Mathf.Floor((Time.time - gameStartTime) / 60.0f) + 1);
+        //Debug.Log("totalcats " + totalCats);
     }
 
     public void spawnCat()
@@ -123,6 +122,7 @@ public class GameManager : MonoBehaviour
 
         switch (level)
         {
+            // case 1 to 3 is to introduce the 3 different types of cats
             case 1:
                 catsToSpawn[BASIC_CAT_INDEX] = 1;
                 catsToSpawn[JUMPING_CAT_INDEX] = 0;
@@ -140,16 +140,16 @@ public class GameManager : MonoBehaviour
                 break;
             default:
                 Random.InitState(System.DateTime.Now.Millisecond);
-                int temp1 = totalCats;
-                for (int i=0; i<catsToSpawn.Length-1; i++)
+                int numCatsLeft = totalCats;
+                int currNumCats = 0;
+                for (int i = 0; i < catsToSpawn.Length - 1; i++)
                 {
-                    int temp = Random.Range(0, temp1 + 1);
-                    catsToSpawn[i] = temp;
-                    temp1 -= temp;
-                    catsToSpawn[i] = temp;
+                    currNumCats = Random.Range(0, numCatsLeft + 1);
+                    catsToSpawn[i] = currNumCats;
+                    numCatsLeft -= currNumCats;
+                    catsToSpawn[i] = currNumCats;
                 }
-                catsToSpawn[catsToSpawn.Length - 1] = temp1;
-
+                catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
                 break;
         }
 
@@ -159,12 +159,11 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < catsToSpawn[i]; j++) // for number of times of each cat
             {
                 // to prevent cats from spawning in the same spot
-                int spawnIndex = (int) Mathf.Floor(Random.Range(0.0f, 5.9f));
+                int spawnIndex = (int)Mathf.Floor(Random.Range(0.0f, 5.9f));
 
                 while (spawnIndexTakenList.Count < 6 && spawnIndexTakenList.Contains(spawnPoints[spawnIndex]))
                 {
                     spawnIndex = (int)Mathf.Floor(Random.Range(0, 5.9f));
-                    Debug.Log(spawnIndex);
                 }
                 spawnIndexTakenList.Add(spawnPoints[spawnIndex]);
 
@@ -228,7 +227,7 @@ public class GameManager : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
         return JUMPING_CAT_INDEX;
     }
-    
+
     public int getMaxSpeed()
     {
         // TODO: depends on adaptive difficulty level -- maybe not implementing
@@ -247,9 +246,10 @@ public class GameManager : MonoBehaviour
     public void updateSpawnDelay()
     {
         // currently spawndelay is decreasing at rate of 0.15 because 3 cats
-        if (spawnDelay > 0)
+        if (spawnDelay > 1)
         {
-            spawnDelay -= 0.05f;
+            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Floor((Time.time - gameStartTime) / 60.0f - 2), 3) + 3;
+            //Debug.Log("spawn delay " + spawnDelay);
             spawnCatsAfterN(spawnDelay, spawnDelay);
         }
     }
@@ -296,7 +296,8 @@ public class GameManager : MonoBehaviour
     IEnumerator freeSpawnPoint(int spawnIndex)
     {
         yield return new WaitForSeconds(sameLocationSpawnDelay);
-        spawnIndexTaken[spawnIndex] = false;
+        Transform spawnPoint = spawnPoints[spawnIndex];
+        spawnIndexTakenList.Remove(spawnPoint);
     }
 
     IEnumerator stunCat(GameObject cat, int index)

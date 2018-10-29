@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Utils : MonoBehaviour{
+public class Utils : MonoBehaviour
+{
 
     public void pauseGame(bool pause)
     {
@@ -14,5 +16,15 @@ public class Utils : MonoBehaviour{
         {
             Time.timeScale = 1.0f;
         }
+    }
+
+    public void reloadLevel()
+    {
+        SceneManager.LoadScene("Level");
+    }
+
+    public void quitLevel()
+    {
+        Application.Quit();
     }
 }
