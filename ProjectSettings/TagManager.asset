@@ -11,6 +11,7 @@ TagManager:
   - JumpPoint2
   - CatBox
   - StopPoint
+  - JumpPoint3
   layers:
   - Default
   - TransparentFX

@@ -36,12 +36,6 @@ public class ChargeCatMovement : CatMovement
         walkedToWindup = true;
     }
 
-    IEnumerator windup()
-    {
-        yield return new WaitForSeconds(1); // delay 1 second
-        hasWindup = true;
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         // if cat exits the screen

@@ -140,14 +140,15 @@ public class GameManager : MonoBehaviour
                 Random.InitState(System.DateTime.Now.Millisecond);
                 int numCatsLeft = totalCats;
                 int currNumCats = 0;
-                for (int i = 0; i < catsToSpawn.Length - 1; i++)
-                {
-                    currNumCats = Random.Range(0, numCatsLeft + 1);
-                    catsToSpawn[i] = currNumCats;
-                    numCatsLeft -= currNumCats;
-                    catsToSpawn[i] = currNumCats;
-                }
-                catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
+                catsToSpawn[JUMPING_CAT_INDEX] = 1;
+                //for (int i = 0; i < catsToSpawn.Length - 1; i++)
+                //{
+                //    currNumCats = Random.Range(0, numCatsLeft + 1);
+                //    catsToSpawn[i] = currNumCats;
+                //    numCatsLeft -= currNumCats;
+                //    catsToSpawn[i] = currNumCats;
+                //}
+                //catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
                 break;
         }
 
