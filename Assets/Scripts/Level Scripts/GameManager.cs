@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     private Utils utils;
     private bool stunModeOn;
     private int[] catCount; // TODO: decide if in screen or total since start of game, do we really need this?
-    public bool[] spawnIndexTaken;
     public List<Transform> spawnIndexTakenList;
 
     private const int BASIC_CAT_INDEX = 0;
@@ -69,7 +68,6 @@ public class GameManager : MonoBehaviour
         catsKilled = new int[cats.Length];
         catCount = new int[cats.Length];
         catsToSpawn = new int[cats.Length];
-        spawnIndexTaken = new bool[6];
         spawnIndexTakenList = new List<Transform>();
         level = 1;
         totalCats = 1;
