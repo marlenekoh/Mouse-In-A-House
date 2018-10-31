@@ -27,4 +27,9 @@ public class Utils : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void goToMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu Again");
+    }
 }
