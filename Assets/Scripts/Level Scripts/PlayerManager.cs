@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
-    public float speedX;
+    public float speedX = 5.0f;
     public float jumpSpeedY;
 
     private bool facingRight = true;
@@ -28,7 +28,6 @@ public class PlayerManager : MonoBehaviour
     {
         // move left, stop
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
-
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.RightArrow))
         {
