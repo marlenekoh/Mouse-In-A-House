@@ -30,6 +30,6 @@ public class Utils : MonoBehaviour
 
     public void goToMainMenu()
     {
-        SceneManager.LoadScene("Main Menu Again");
+        SceneManager.LoadScene("Main Menu");
     }
 }
