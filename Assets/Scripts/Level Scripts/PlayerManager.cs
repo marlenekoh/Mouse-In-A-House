@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         // move left, stop
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
         // add fake gravity to land faster
-        else if (isJumping)
+        if (isJumping)
         {
             Vector3 vel = rb.velocity;
             vel.y -= 15 * Time.deltaTime;
@@ -81,7 +81,7 @@ public class PlayerManager : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // for jump
-        if (collision.gameObject.tag == "Ground" && rb.velocity.y <= 0)
+        if (isJumping && collision.gameObject.tag == "Ground" && rb.velocity.y <= 0)
         {
             rb.velocity = new Vector3(0, 0, 0);
             isJumping = false;

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Transform[] spawnPoints;
     public Transform[] boxSpawnPoints;
     public GameObject gameOverObject;
+    public GameObject explosion;
     public GameObject catBox;
     public bool debugInvincibleMode;
     public int[] catsKilled;
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
     private const int JUMPING_CAT_INDEX = 1;
     private const int CHARGING_CAT_INDEX = 2;
 
-    private void Awake()
+    private void Start()
     {
         if (Instance != null)
         {
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
         spawnCatsAfterN(0, spawnDelay);
+        gameStartTime = Time.time;
 
         gameOverObject.SetActive(false);
         utils.pauseGame(false);
@@ -140,15 +142,14 @@ public class GameManager : MonoBehaviour
                 Random.InitState(System.DateTime.Now.Millisecond);
                 int numCatsLeft = totalCats;
                 int currNumCats = 0;
-                catsToSpawn[JUMPING_CAT_INDEX] = 1;
-                //for (int i = 0; i < catsToSpawn.Length - 1; i++)
-                //{
-                //    currNumCats = Random.Range(0, numCatsLeft + 1);
-                //    catsToSpawn[i] = currNumCats;
-                //    numCatsLeft -= currNumCats;
-                //    catsToSpawn[i] = currNumCats;
-                //}
-                //catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
+                for (int i = 0; i < catsToSpawn.Length - 1; i++)
+                {
+                    currNumCats = Random.Range(0, numCatsLeft + 1);
+                    catsToSpawn[i] = currNumCats;
+                    numCatsLeft -= currNumCats;
+                    catsToSpawn[i] = currNumCats;
+                }
+                catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
                 break;
         }
 
@@ -268,8 +269,22 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1); // delay 1 second
         Destroy(tempCatBox);
-        //StartCoroutine(freeSpawnPoint(spawnIndex));
+        StartCoroutine(spawnExplosion(index, spawnIndex));
+        StartCoroutine(spawnCat(index, spawnIndex));
+    }
 
+    IEnumerator spawnExplosion(int index, int spawnIndex)
+    {
+        GameObject tempExplosion = Instantiate(explosion, boxSpawnPoints[spawnIndex].position, boxSpawnPoints[spawnIndex].rotation);
+        yield return new WaitForSeconds(0.7f);
+        Destroy(tempExplosion);
+
+    }
+
+    IEnumerator spawnCat(int index, int spawnIndex)
+    {
+        Vector3 newLocalScale;
+        yield return new WaitForSeconds(0.1f);
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex].position, spawnPoints[0].rotation);
 
         newLocalScale = createdCat.transform.localScale;
@@ -278,12 +293,13 @@ public class GameManager : MonoBehaviour
         {
             newLocalScale.x = -newLocalScale.x;
         }
-        if (index == CHARGING_CAT_INDEX)
-        {
-            pos.y += 0.2f;
-            createdCat.transform.position = pos;
-        }
+        //if (index == CHARGING_CAT_INDEX)
+        //{
+        //    pos.y += 0.2f;
+        //    createdCat.transform.position = pos;
+        //}
         createdCat.transform.localScale = newLocalScale;
+
     }
 
     IEnumerator waitNSeconds(float n)
