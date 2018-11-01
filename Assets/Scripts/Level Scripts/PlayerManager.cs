@@ -16,12 +16,15 @@ public class PlayerManager : MonoBehaviour
     private const int JUMPING_CAT_INDEX = 1;
     private const int CHARGING_CAT_INDEX = 2;
 
+    private Animator anim;
+
     Rigidbody2D rb;
 
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -33,11 +36,11 @@ public class PlayerManager : MonoBehaviour
         {
             x = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             goingRight = false;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             goingRight = true;
         }
@@ -54,6 +57,15 @@ public class PlayerManager : MonoBehaviour
             Vector3 vel = rb.velocity;
             vel.y -= 15 * Time.deltaTime;
             rb.velocity = vel;
+        }
+
+        if (rb.velocity.x != 0)
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
         }
 
         // Flip
