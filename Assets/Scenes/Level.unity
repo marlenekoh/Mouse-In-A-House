@@ -195,6 +195,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4932075541962794, guid: 27ffd4119b0793a4696615e4d643a90c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932075541962794, guid: 27ffd4119b0793a4696615e4d643a90c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61454873272075758, guid: 27ffd4119b0793a4696615e4d643a90c,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.39144284
+      objectReference: {fileID: 0}
+    - target: {fileID: 61454873272075758, guid: 27ffd4119b0793a4696615e4d643a90c,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.53248274
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27ffd4119b0793a4696615e4d643a90c, type: 2}
   m_IsPrefabAsset: 0
@@ -277,7 +295,7 @@ MonoBehaviour:
   - {fileID: 79903444}
   gameOverObject: {fileID: 1756128343}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
   catsKilled: 
   catsToSpawn: 01000000
   sameLocationSpawnDelay: 5
@@ -615,8 +633,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 58547804}
-        m_MethodName: startGame
+      - m_Target: {fileID: 58547807}
+        m_MethodName: reloadLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2258,7 +2276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4404735697015830, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1546056498401166, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_Layer
@@ -3187,7 +3205,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4404735697015830, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1546056498401166, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_Layer
@@ -3763,7 +3781,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4404735697015830, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1546056498401166, guid: 513ccd09eef134747a394b646f9fe8af, type: 2}
       propertyPath: m_Layer
