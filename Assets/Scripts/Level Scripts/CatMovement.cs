@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CatMovement : MonoBehaviour
 {
-    public Animator anim;
     //public LayerMask enemyMask;
+    protected Animator anim;
     protected Rigidbody2D rb;
     protected Transform trans;
     protected GameObject mouse;
@@ -19,6 +19,7 @@ public class CatMovement : MonoBehaviour
         mouse = GameObject.Find("Mouse");
         trans = this.transform;
         rb = this.GetComponent<Rigidbody2D>();
+        anim = this.GetComponentInChildren<Animator>();
         Random.InitState(System.DateTime.Now.Millisecond);
         //speed = Random.Range(3, GameManager.getInstance().getMaxSpeed());
         speed = 3;
