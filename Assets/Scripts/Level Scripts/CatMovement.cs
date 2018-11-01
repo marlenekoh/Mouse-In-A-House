@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CatMovement : MonoBehaviour
 {
+    public Animator anim;
     //public LayerMask enemyMask;
     protected Rigidbody2D rb;
     protected Transform trans;
-    protected Animator anim;
     protected GameObject mouse;
     protected float speed;
     protected int maxSpeed; // TODO: to vary according to adaptive difficulty
@@ -32,9 +32,11 @@ public class CatMovement : MonoBehaviour
         if (isStunned)
         {
             rb.velocity = new Vector3(0, 0, 0);
+            anim.SetBool("isStunned", true);
         }
         else
         {
+            anim.SetBool("isStunned", false);
             Vector2 vel = rb.velocity;
             vel.x = trans.right.x * speed;
             if (trans.localScale.x < 0)

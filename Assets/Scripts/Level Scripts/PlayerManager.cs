@@ -68,6 +68,15 @@ public class PlayerManager : MonoBehaviour
             anim.SetBool("isRunning", false);
         }
 
+        if (isJumping)
+        {
+            anim.SetBool("isJumping", true);
+        }
+        else
+        {
+            anim.SetBool("isJumping", false);
+        }
+
         // Flip
         if (goingRight && !facingRight || !goingRight && facingRight)
         {
