@@ -11,12 +11,16 @@ public class JumpCatMovement : CatMovement
     {
         if (isJumping)
         {
+            anim.SetBool("isJumping", true);
             // add artifical gravity to make jump smoother
             Vector3 vel = rb.velocity;
             vel.y -= 15 * Time.deltaTime;
             rb.velocity = vel;
         }
-
+        else
+        {
+            anim.SetBool("isJumping", false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
