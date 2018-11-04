@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
         }
         catsKilled[catIndex]++;
         destroyCat(cat);
-        stunAllCats();
+        stunAllCats(cat);
 
     }
 
@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
         Destroy(cat);
     }
 
-    public void stunAllCats()
+    public void stunAllCats(GameObject catToIgnore)
     {
         if (!stunModeOn)
         {
@@ -224,7 +224,10 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < existingCats.Length; i++)
             {
-                StartCoroutine(stunCat(existingCats[i], i));
+                if (existingCats[i] != catToIgnore)
+                {
+                    StartCoroutine(stunCat(existingCats[i], i));
+                }
             }
         }
     }

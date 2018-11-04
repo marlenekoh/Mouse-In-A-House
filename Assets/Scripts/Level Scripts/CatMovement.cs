@@ -79,14 +79,15 @@ public class CatMovement : MonoBehaviour
         rb.velocity = new Vector3(0, 0, 0);
         speed = 0;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        foreach (Transform child in gameObject.transform)
-        {
-            if (child.gameObject.tag != "CatBack" && child.gameObject.GetComponent<BoxCollider2D>() != null)
-            {
-                child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            }
-        }
-        anim.SetBool("isDead", true);
+        Destroy(rb);
+        //foreach (Transform child in gameObject.transform)
+        //{
+        //    if (child.gameObject.tag != "CatBack" && child.gameObject.GetComponent<BoxCollider2D>() != null)
+        //    {
+        //        child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        //    }
+        //}
+        anim.SetTrigger("isDead");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
