@@ -49,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             isJumping = true;
+            anim.SetBool("isJumping", true);
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
         // add fake gravity to land faster
@@ -116,6 +117,7 @@ public class PlayerManager : MonoBehaviour
         {
             rb.velocity = new Vector3(0, 0, 0);
             isJumping = false;
+            anim.SetBool("isJumping", false);
         }
 
         // if mouse touches bottom of cat
