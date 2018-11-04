@@ -5,12 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Utils : MonoBehaviour
 {
+    public Animator fadeAnim;
+
+    private void Start()
+    {
+        fadeAnim = GameObject.Find("Fade").GetComponent<Animator>();
+        fadeAnim.SetTrigger("fadeIn");
+    }
 
     public void pauseGame(bool pause)
     {
         if (pause)
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 0.0f;
         }
         else
         {
@@ -20,7 +27,8 @@ public class Utils : MonoBehaviour
 
     public void reloadLevel()
     {
-        SceneManager.LoadScene("Level");
+        fadeAnim.SetTrigger("fadeOut");
+        StartCoroutine(loadLevel("Level"));
     }
 
     public void quitLevel()
@@ -30,6 +38,14 @@ public class Utils : MonoBehaviour
 
     public void goToMainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        fadeAnim.SetTrigger("fadeOut");
+        StartCoroutine(loadLevel("Main Menu"));
     }
+
+    private IEnumerator loadLevel(string levelName)
+    {
+        yield return new WaitForSeconds(0); // delay 1 second
+        SceneManager.LoadScene(levelName);
+    }
+
 }

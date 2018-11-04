@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class LoadingBar : MonoBehaviour {
     public Slider slider;
+    public Animator fadeAnim;
     private AsyncOperation async = null; // When assigned, load is in progress.
     private float startTime;
 
@@ -19,9 +20,10 @@ public class LoadingBar : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (slider.value >= 1.0f)
+        if (slider.value >= 0.9f)
         {
-            SceneManager.LoadScene("Main Menu");
+            fadeAnim.SetTrigger("fadeOut");
+            StartCoroutine(loadLevel("Level"));
         }
     }
 
@@ -32,8 +34,10 @@ public class LoadingBar : MonoBehaviour {
 
     private IEnumerator loadLevel(string levelName)
     {
-        async = SceneManager.LoadSceneAsync(levelName);
-        yield return async;
+        //async = SceneManager.LoadSceneAsync(levelName);
+        //yield return async;
+        yield return new WaitForSeconds(2); // delay 1 second
+        SceneManager.LoadScene("Main Menu");
     }
 
 }

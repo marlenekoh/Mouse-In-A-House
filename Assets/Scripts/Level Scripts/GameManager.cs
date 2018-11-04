@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         totalCats = 1;
         InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
-        spawnCatsAfterN(0, spawnDelay);
+        spawnCatsAfterN(1.0f, spawnDelay);
         gameStartTime = Time.time;
 
         gameOverObject.SetActive(false);
