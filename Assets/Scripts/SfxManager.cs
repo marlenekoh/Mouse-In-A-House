@@ -39,17 +39,28 @@ public class SfxManager : MonoBehaviour {
 
     public static void PlaySound(string clip)
     {
-        switch (clip)
+        if (!muteSfx)
         {
-            case "jump":
-                audioSrc.PlayOneShot(jump);
-                break;
+            switch (clip)
+            {
+                case "jump":
+                    audioSrc.PlayOneShot(jump);
+                    break;
+            }
         }
     }
 
     public void playClick()
     {
-        audioSrc.PlayOneShot(click);
+        if (!muteSfx)
+        {
+            audioSrc.PlayOneShot(click);
+        }
+    }
+
+    public AudioSource getAudioSource()
+    {
+        return audioSrc;
     }
 
 }

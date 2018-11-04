@@ -39,15 +39,25 @@ public class MusicManager : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (!audioSrc.isPlaying)
+        playBGM();
+    }
+
+    public static void PauseBGM()
+    {
+        audioSrc.Pause();
+    }
+
+    public static void playBGM()
+    {
+        if (!muteMusic && !audioSrc.isPlaying)
         {
             audioSrc.PlayOneShot(BGM1);
         }
     }
 
-    public static void StopBGM()
+    public AudioSource getAudioSource()
     {
-        audioSrc.Stop();
+        return audioSrc;
     }
 
 }
