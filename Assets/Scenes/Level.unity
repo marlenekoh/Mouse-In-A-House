@@ -236,7 +236,7 @@ MonoBehaviour:
   gameOverObject: {fileID: 1756128343}
   explosion: {fileID: 1265816309326572, guid: 2a52de736dae928479e4e0db83b17ce1, type: 2}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
   catsKilled: 
   catsToSpawn: 01000000
   sameLocationSpawnDelay: 5
@@ -4230,7 +4230,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4891441303336810, guid: 62c3c8584178dc84aa84c3f53670faf8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -9.9873495
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 4891441303336810, guid: 62c3c8584178dc84aa84c3f53670faf8, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5705,7 +5705,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4932075541962794, guid: 27ffd4119b0793a4696615e4d643a90c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -6.28
+      value: -5.44
       objectReference: {fileID: 0}
     - target: {fileID: 4932075541962794, guid: 27ffd4119b0793a4696615e4d643a90c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5895,11 +5895,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4932075541962794, guid: 2bf25bdbe1266924d801fcef436e5fdc, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.6526637
+      value: -1.879
       objectReference: {fileID: 0}
     - target: {fileID: 4932075541962794, guid: 2bf25bdbe1266924d801fcef436e5fdc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.790632
+      value: -6.797
       objectReference: {fileID: 0}
     - target: {fileID: 4932075541962794, guid: 2bf25bdbe1266924d801fcef436e5fdc, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5925,6 +5925,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 212880630850833546, guid: 2bf25bdbe1266924d801fcef436e5fdc,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 021b7bd1d330c464ea03f3a2fef69496,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bf25bdbe1266924d801fcef436e5fdc, type: 2}
   m_IsPrefabAsset: 0
