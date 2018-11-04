@@ -69,6 +69,11 @@ public class CatMovement : MonoBehaviour
         isStunned = stun;
     }
 
+    public bool getIsStunned()
+    {
+        return isStunned;
+    }
+
     public void onCatDeath()
     {
         rb.velocity = new Vector3(0, 0, 0);

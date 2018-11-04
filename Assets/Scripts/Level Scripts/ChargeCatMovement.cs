@@ -8,7 +8,6 @@ public class ChargeCatMovement : CatMovement
     public float chargeSpeed;
 
     private bool walkedToWindup = false;
-    private bool hasWindup = false;
 
     // todo: implement animation
     protected new void Start()

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LoadingBar : MonoBehaviour {
     public Slider slider;
     public Animator fadeAnim;
-    private AsyncOperation async = null; // When assigned, load is in progress.
+    //private AsyncOperation async = null; // When assigned, load is in progress.
     private float startTime;
 
     private void Start()

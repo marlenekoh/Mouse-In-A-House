@@ -78,7 +78,44 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private bool catIsStunned(GameObject cat)
+    {
+        if (cat.GetComponent<ChargeCatMovement>() != null)
+        {
+            Debug.Log("charge cat stunned");
+            return cat.GetComponent<ChargeCatMovement>().getIsStunned();
+        }
+        else if (cat.GetComponent<JumpCatMovement>() != null)
+        {
+            Debug.Log("jump cat stunned");
+            return cat.GetComponent<JumpCatMovement>().getIsStunned();
+        }
+        else if (cat.GetComponent<CatMovement>() != null)
+        {
+            Debug.Log("basic cat stunned");
+            return cat.GetComponent<CatMovement>().getIsStunned();
+        }
+        else if (cat.transform.parent.gameObject.GetComponent<ChargeCatMovement>() != null)
+        {
+            Debug.Log("charge cat stunned");
+            return cat.transform.parent.gameObject.GetComponent<ChargeCatMovement>().getIsStunned();
+        }
+        else if (cat.transform.parent.gameObject.GetComponent<JumpCatMovement>() != null)
+        {
+            Debug.Log("jump cat stunned");
+            return cat.transform.parent.gameObject.GetComponent<JumpCatMovement>().getIsStunned();
+        }
+        else if (cat.transform.parent.gameObject.GetComponent<CatMovement>() != null)
+        {
+            Debug.Log("basic cat stunned");
+            return cat.transform.parent.gameObject.GetComponent<CatMovement>().getIsStunned();
+        }
+
+        Debug.Log("not stunned");
+        return false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // for jump
         if (isJumping && collision.gameObject.tag == "Ground" && rb.velocity.y <= 0)
@@ -90,9 +127,12 @@ public class PlayerManager : MonoBehaviour
         // if mouse touches bottom of cat
         if (collision.gameObject.tag == "Cat") // then kill player
         {
-            // game over code
-            Debug.Log("touch bottom");
-            GameManager.getInstance().gameOver();
+            if (!catIsStunned(collision.gameObject))
+            {
+                // game over code
+                Debug.Log("touch bottom");
+                GameManager.getInstance().gameOver();
+            }
         }
 
     }
@@ -109,8 +149,11 @@ public class PlayerManager : MonoBehaviour
         // if mouse touches front of cat
         else if (collision.gameObject.tag == "Cat") // then game over
         {
-            Debug.Log("touch front");
-            GameManager.getInstance().gameOver();
+            if (!catIsStunned(collision.gameObject))
+            {
+                Debug.Log("touch front");
+                GameManager.getInstance().gameOver();
+            }
         }
     }
 }
