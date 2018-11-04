@@ -184,14 +184,17 @@ public class GameManager : MonoBehaviour
         if (cat.GetComponent<ChargeCatMovement>() != null)
         {
             catIndex = CHARGING_CAT_INDEX;
+            cat.GetComponent<ChargeCatMovement>().onCatDeath();
         }
         else if (cat.GetComponent<JumpCatMovement>() != null)
         {
             catIndex = JUMPING_CAT_INDEX;
+            cat.GetComponent<JumpCatMovement>().onCatDeath();
         }
         else if (cat.GetComponent<CatMovement>() != null)
         {
             catIndex = BASIC_CAT_INDEX;
+            cat.GetComponent<CatMovement>().onCatDeath();
         }
         catsKilled[catIndex]++;
         destroyCat(cat);
@@ -201,8 +204,14 @@ public class GameManager : MonoBehaviour
 
     public void destroyCat(GameObject cat)
     {
-        cat.SetActive(false);
-        StartCoroutine(waitNSeconds(2)); //don't kill it immediately
+        StartCoroutine(playCatDeathAnim(cat));
+        //StartCoroutine(waitNSeconds(2)); //don't kill it immediately
+        //Destroy(cat);
+    }
+
+    IEnumerator playCatDeathAnim(GameObject cat)
+    {
+        yield return new WaitForSeconds(1); // delay 1 second
         Destroy(cat);
     }
 
@@ -337,17 +346,20 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f); // delay 1 second
 
-        switch (catIndex)
+        if (cat != null)
         {
-            case BASIC_CAT_INDEX:
-                cat.GetComponent<CatMovement>().setIsStunned(false);
-                break;
-            case JUMPING_CAT_INDEX:
-                cat.GetComponent<JumpCatMovement>().setIsStunned(false);
-                break;
-            case CHARGING_CAT_INDEX:
-                cat.GetComponent<ChargeCatMovement>().setIsStunned(false);
-                break;
+            switch (catIndex)
+            {
+                case BASIC_CAT_INDEX:
+                    cat.GetComponent<CatMovement>().setIsStunned(false);
+                    break;
+                case JUMPING_CAT_INDEX:
+                    cat.GetComponent<JumpCatMovement>().setIsStunned(false);
+                    break;
+                case CHARGING_CAT_INDEX:
+                    cat.GetComponent<ChargeCatMovement>().setIsStunned(false);
+                    break;
+            }
         }
     }
 }

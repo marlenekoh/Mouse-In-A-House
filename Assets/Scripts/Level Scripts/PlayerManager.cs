@@ -91,6 +91,7 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.tag == "Cat") // then kill player
         {
             // game over code
+            Debug.Log("touch bottom");
             GameManager.getInstance().gameOver();
         }
 
@@ -106,8 +107,9 @@ public class PlayerManager : MonoBehaviour
         }
 
         // if mouse touches front of cat
-        if (collision.gameObject.tag == "Cat") // then game over
+        else if (collision.gameObject.tag == "Cat") // then game over
         {
+            Debug.Log("touch front");
             GameManager.getInstance().gameOver();
         }
     }
