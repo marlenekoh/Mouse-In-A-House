@@ -10,6 +10,21 @@ public class MusicManager : MonoBehaviour {
     public static bool muteMusic;
 
     static AudioSource audioSrc;
+    private static MusicManager instance = null;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Use this for initialization
     void Start()
@@ -18,8 +33,8 @@ public class MusicManager : MonoBehaviour {
 
         BGM1 = Resources.Load<AudioClip>("BGM1");
 
-        audioSrc = GetComponent<AudioSource>();
-        audioSrc.volume = 0.5f;
+        audioSrc = gameObject.GetComponent<AudioSource>();
+        audioSrc.volume = 0.3f;
     }
 
     private void FixedUpdate()

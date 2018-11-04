@@ -17,14 +17,15 @@ public class PlayerManager : MonoBehaviour
     private const int CHARGING_CAT_INDEX = 2;
 
     private Animator anim;
-
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private SfxManager sfxManager;
 
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sfxManager = GameObject.Find("SfxManager").GetComponent<SfxManager>();
     }
 
     void Update()
@@ -49,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             isJumping = true;
+            SfxManager.PlaySound("jump");
             anim.SetBool("isJumping", true);
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }

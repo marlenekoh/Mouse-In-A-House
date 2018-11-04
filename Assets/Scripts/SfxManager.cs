@@ -10,6 +10,21 @@ public class SfxManager : MonoBehaviour {
     public static bool muteSfx;
 
     static AudioSource audioSrc;
+    private static SfxManager instance = null;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Use this for initialization
     void Start()
@@ -17,7 +32,8 @@ public class SfxManager : MonoBehaviour {
         muteSfx = false;
         jump = Resources.Load<AudioClip>("jump");
         click = Resources.Load<AudioClip>("click");
-        audioSrc = GetComponent<AudioSource>();
+        audioSrc = gameObject.GetComponent<AudioSource>();
+        audioSrc.volume = 0.3f;
 
     }
 
@@ -25,9 +41,8 @@ public class SfxManager : MonoBehaviour {
     {
         switch (clip)
         {
-            case ("jump"):
-                if (!audioSrc.isPlaying)
-                    audioSrc.PlayOneShot(jump);
+            case "jump":
+                audioSrc.PlayOneShot(jump);
                 break;
         }
     }
