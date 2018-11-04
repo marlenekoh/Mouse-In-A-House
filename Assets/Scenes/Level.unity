@@ -3769,6 +3769,21 @@ Prefab:
       propertyPath: m_Name
       value: platform (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.0111989975
+      objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.0074405856
+      objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.22488111
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6241b10b26caf44688f76c4afb2775c, type: 2}
   m_IsPrefabAsset: 0
@@ -4579,6 +4594,21 @@ Prefab:
       propertyPath: m_Name
       value: platform (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.0111989975
+      objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.11638427
+      objectReference: {fileID: 0}
+    - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.4427685
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6241b10b26caf44688f76c4afb2775c, type: 2}
   m_IsPrefabAsset: 0
@@ -4653,7 +4683,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!212 &1682796624
 SpriteRenderer:
@@ -4769,7 +4799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedX: 5
-  jumpSpeedY: 14.5
+  jumpSpeedY: 14
 --- !u!1001 &1697175615
 Prefab:
   m_ObjectHideFlags: 0
@@ -6179,7 +6209,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1983515483}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f4b4fd1f2e5731e4f9d6dff328888279, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -6204,7 +6234,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1983515483}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f4b4fd1f2e5731e4f9d6dff328888279, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
