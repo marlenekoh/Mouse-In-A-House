@@ -128,11 +128,9 @@ public class PlayerManager : MonoBehaviour
             if (!catIsStunned(collision.gameObject))
             {
                 // game over code
-                Debug.Log("touch bottom");
                 GameManager.getInstance().gameOver();
             }
         }
-
     }
 
     // on collision with other cats
@@ -149,7 +147,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (!catIsStunned(collision.gameObject))
             {
-                Debug.Log("touch front");
                 GameManager.getInstance().gameOver();
             }
         }
