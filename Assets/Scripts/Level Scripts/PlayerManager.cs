@@ -82,32 +82,26 @@ public class PlayerManager : MonoBehaviour
     {
         if (cat.GetComponent<ChargeCatMovement>() != null)
         {
-            Debug.Log("charge cat stunned");
             return cat.GetComponent<ChargeCatMovement>().getIsStunned();
         }
         else if (cat.GetComponent<JumpCatMovement>() != null)
         {
-            Debug.Log("jump cat stunned");
             return cat.GetComponent<JumpCatMovement>().getIsStunned();
         }
         else if (cat.GetComponent<CatMovement>() != null)
         {
-            Debug.Log("basic cat stunned");
             return cat.GetComponent<CatMovement>().getIsStunned();
         }
         else if (cat.transform.parent.gameObject.GetComponent<ChargeCatMovement>() != null)
         {
-            Debug.Log("charge cat stunned");
             return cat.transform.parent.gameObject.GetComponent<ChargeCatMovement>().getIsStunned();
         }
         else if (cat.transform.parent.gameObject.GetComponent<JumpCatMovement>() != null)
         {
-            Debug.Log("jump cat stunned");
             return cat.transform.parent.gameObject.GetComponent<JumpCatMovement>().getIsStunned();
         }
         else if (cat.transform.parent.gameObject.GetComponent<CatMovement>() != null)
         {
-            Debug.Log("basic cat stunned");
             return cat.transform.parent.gameObject.GetComponent<CatMovement>().getIsStunned();
         }
 
