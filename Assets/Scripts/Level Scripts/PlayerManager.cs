@@ -18,14 +18,12 @@ public class PlayerManager : MonoBehaviour
 
     private Animator anim;
     private Rigidbody2D rb;
-    private SfxManager sfxManager;
 
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        sfxManager = GameObject.Find("SfxManager").GetComponent<SfxManager>();
     }
 
     void Update()
