@@ -35,7 +35,7 @@ public class CatMovement : MonoBehaviour
             rb.velocity = new Vector3(0, 0, 0);
             anim.SetBool("isStunned", true);
         }
-        else
+        else if (rb != null)
         {
             anim.SetBool("isStunned", false);
             Vector2 vel = rb.velocity;
@@ -76,17 +76,15 @@ public class CatMovement : MonoBehaviour
 
     public void onCatDeath()
     {
-        rb.velocity = new Vector3(0, 0, 0);
-        speed = 0;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         Destroy(rb);
-        //foreach (Transform child in gameObject.transform)
-        //{
-        //    if (child.gameObject.tag != "CatBack" && child.gameObject.GetComponent<BoxCollider2D>() != null)
-        //    {
-        //        child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        //    }
-        //}
+        foreach (Transform child in gameObject.transform)
+        {
+            if (child.gameObject.tag != "CatBack" && child.gameObject.GetComponent<BoxCollider2D>() != null)
+            {
+                child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
         anim.SetTrigger("isDead");
     }
 

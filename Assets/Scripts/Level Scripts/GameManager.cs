@@ -189,6 +189,7 @@ public class GameManager : MonoBehaviour
         else if (cat.GetComponent<JumpCatMovement>() != null)
         {
             catIndex = JUMPING_CAT_INDEX;
+            Debug.Log("onCatDeath successfulkill jumping");
             cat.GetComponent<JumpCatMovement>().onCatDeath();
         }
         else if (cat.GetComponent<CatMovement>() != null)
