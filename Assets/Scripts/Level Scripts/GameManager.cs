@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         mouse = GameObject.Find("Mouse");
+        mouse.GetComponent<SpriteRenderer>().enabled = true;
         utils = gameObject.GetComponent<Utils>();
         startGame();
     }
@@ -250,6 +251,7 @@ public class GameManager : MonoBehaviour
     {
         if (!debugInvincibleMode)
         {
+            mouse.GetComponent<SpriteRenderer>().enabled = false;
             gameOverObject.SetActive(true);
             utils.pauseGame(true);
         }

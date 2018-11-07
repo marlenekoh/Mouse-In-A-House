@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     private bool facingRight = true;
     private bool goingRight = true;
     private bool isJumping = false;
+    private bool isDead;
 
     private const int BASIC_CAT_INDEX = 0;
     private const int JUMPING_CAT_INDEX = 1;
@@ -24,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        isDead = false;
     }
 
     void Update()
@@ -126,7 +128,9 @@ public class PlayerManager : MonoBehaviour
             if (!catIsStunned(collision.gameObject))
             {
                 // game over code
-                GameManager.getInstance().gameOver();
+                anim.SetTrigger("isDead");
+                isDead = true;
+                StartCoroutine(lagGameOver());
             }
         }
     }
@@ -134,7 +138,7 @@ public class PlayerManager : MonoBehaviour
     // on collision with other cats
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "CatBack") // then kill cat
+        if (!isDead && collision.gameObject.tag == "CatBack") // then kill cat
         {
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
             GameManager.getInstance().onSuccessfulKill(deadCat);
@@ -145,8 +149,16 @@ public class PlayerManager : MonoBehaviour
         {
             if (!catIsStunned(collision.gameObject))
             {
-                GameManager.getInstance().gameOver();
+                anim.SetTrigger("isDead");
+                isDead = true;
+                StartCoroutine(lagGameOver());
             }
         }
+    }
+
+    IEnumerator lagGameOver()
+    {
+        yield return new WaitForSeconds(0.5f); // delay 1 second
+        GameManager.getInstance().gameOver();
     }
 }
