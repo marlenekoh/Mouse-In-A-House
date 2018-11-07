@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private int level = 1;
     private int totalCats = 1;
     private float gameStartTime;
+    private int catCounter = 0; // if counter is 1, spawn cat at mouse level
 
     private GameObject mouse;
     private Utils utils;
@@ -160,7 +161,48 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < catsToSpawn[i]; j++) // for number of times of each cat
             {
                 // to prevent cats from spawning in the same spot
-                int spawnIndex = (int)Mathf.Floor(Random.Range(0.0f, 5.9f));
+                int spawnIndex;
+                int temp;
+                if (catCounter == 2)
+                {
+                    if (mouse.GetComponent<Transform>().position.y >= 1.7)
+                    {
+                        // spawn at top
+                        spawnIndex = 0;
+                        temp = (int)Mathf.Floor(Random.Range(0, 2));
+                        if (temp == 1)
+                        {
+                            spawnIndex = 3;
+                        }
+
+                    }
+                    else if (mouse.GetComponent<Transform>().position.y >= -0.6)
+                    {
+                        // spawn at middle
+                        spawnIndex = 1;
+                        temp = (int)Mathf.Floor(Random.Range(0, 2));
+                        if (temp == 1)
+                        {
+                            spawnIndex = 4;
+                        }
+                    }
+                    else
+                    {
+                        // spawn at bottom
+                        spawnIndex = 2;
+                        temp = (int)Mathf.Floor(Random.Range(0, 2));
+                        if (temp == 1)
+                        {
+                            spawnIndex = 5;
+                        }
+                    }
+                    catCounter = 0;
+                }
+                else
+                {
+                    spawnIndex = (int)Mathf.Floor(Random.Range(0.0f, 5.9f));
+                    catCounter++;
+                }
 
                 while (spawnIndexTakenList.Count < 6 && spawnIndexTakenList.Contains(spawnPoints[spawnIndex]))
                 {
@@ -168,12 +210,6 @@ public class GameManager : MonoBehaviour
                 }
                 spawnIndexTakenList.Add(spawnPoints[spawnIndex]);
 
-                //while (!spawnIndexTaken[spawnIndex])
-                //{
-                //    spawnIndex = (int) Mathf.Floor(Random.Range(0, 5.9f));
-                //    spawnIndexTaken[spawnIndex] = true;
-                //    Debug.Log(spawnIndex);
-                //}
                 StartCoroutine(spawnCatBox(i, spawnIndex));
             }
         }
