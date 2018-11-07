@@ -141,6 +141,7 @@ public class PlayerManager : MonoBehaviour
         if (!isDead && collision.gameObject.tag == "CatBack") // then kill cat
         {
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
+            SfxManager.PlaySound("killCat");
             GameManager.getInstance().onSuccessfulKill(deadCat);
         }
 
@@ -159,6 +160,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator lagGameOver()
     {
         yield return new WaitForSeconds(0.5f); // delay 1 second
+        SfxManager.PlaySound("gameOverSound");
         GameManager.getInstance().gameOver();
     }
 }

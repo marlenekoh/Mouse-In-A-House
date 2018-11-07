@@ -23,7 +23,8 @@ public class SfxManager : MonoBehaviour {
     {
         if (instance != null && instance != this)
         {
-            Destroy(gameObject);
+            Destroy(instance.gameObject);
+            instance = this;
             return;
         }
         else

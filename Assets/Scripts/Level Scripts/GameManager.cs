@@ -198,6 +198,7 @@ public class GameManager : MonoBehaviour
             cat.GetComponent<CatMovement>().onCatDeath();
         }
         catsKilled[catIndex]++;
+        SfxManager.PlaySound("catDeathCry");
         destroyCat(cat);
         stunAllCats(cat);
 
@@ -297,6 +298,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator spawnCat(int index, int spawnIndex)
     {
+        SfxManager.PlaySound("catSpawn");
         Vector3 newLocalScale;
         yield return new WaitForSeconds(0.1f);
         GameObject createdCat = Instantiate(cats[index], spawnPoints[spawnIndex].position, spawnPoints[0].rotation);

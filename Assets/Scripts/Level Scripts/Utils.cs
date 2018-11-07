@@ -44,7 +44,12 @@ public class Utils : MonoBehaviour
 
     private IEnumerator loadLevel(string levelName)
     {
-        yield return new WaitForSeconds(0); // delay 1 second
+        float delay = 0.1f;
+        if (levelName == "Main Menu")
+        {
+            delay = 0.0f;
+        }
+        yield return new WaitForSeconds(delay); // if delay, cannot load main menu ):
         SceneManager.LoadScene(levelName);
     }
 

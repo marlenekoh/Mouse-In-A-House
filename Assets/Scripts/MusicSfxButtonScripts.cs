@@ -27,6 +27,18 @@ public class MusicSfxButtonScripts : MonoBehaviour {
 
         sfxOn.onClick.AddListener(ToggleSfx);
         sfxOff.onClick.AddListener(ToggleSfx);
+
+        if (MusicManager.muteMusic)
+        {
+            musicOff.gameObject.SetActive(true);
+            musicOn.gameObject.SetActive(false);
+        }
+
+        if (SfxManager.muteSfx)
+        {
+            sfxOff.gameObject.SetActive(true);
+            sfxOn.gameObject.SetActive(false);
+        }
     }
 
     public void ToggleMusic()

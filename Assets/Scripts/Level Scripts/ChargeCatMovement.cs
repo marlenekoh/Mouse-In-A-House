@@ -14,6 +14,7 @@ public class ChargeCatMovement : CatMovement
     {
         base.Start();
         speed = startSpeed;
+        SfxManager.PlaySound("chargingCat");
 
         StartCoroutine(walkToWindup());
     }
