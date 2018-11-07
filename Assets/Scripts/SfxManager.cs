@@ -14,7 +14,7 @@ public class SfxManager : MonoBehaviour {
     public static AudioClip jumpingCat;
     public static AudioClip goodJob;
 
-    public static bool muteSfx;
+    private static bool muteSfx;
 
     static AudioSource audioSrc;
     private static SfxManager instance = null;
@@ -37,7 +37,7 @@ public class SfxManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        muteSfx = false;
+        muteSfx = MusicManager.muteSfx;
         jump = Resources.Load<AudioClip>("loudJump");
         click = Resources.Load<AudioClip>("ButtonClick");
         catDeathCry = Resources.Load<AudioClip>("Cat Death");
@@ -51,6 +51,11 @@ public class SfxManager : MonoBehaviour {
         audioSrc = gameObject.GetComponent<AudioSource>();
         audioSrc.volume = 0.3f;
 
+    }
+
+    private void FixedUpdate()
+    {
+        muteSfx = MusicManager.muteSfx;
     }
 
     public static void PlaySound(string clip)

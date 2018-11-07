@@ -8,6 +8,7 @@ public class MusicManager : MonoBehaviour {
     public static AudioClip BGM2;
 
     public static bool muteMusic;
+    public static bool muteSfx;
 
     static AudioSource audioSrc;
     private static MusicManager instance = null;
@@ -30,6 +31,7 @@ public class MusicManager : MonoBehaviour {
     void Start()
     {
         muteMusic = false;
+        muteSfx = false;
 
         BGM1 = Resources.Load<AudioClip>("BGM1");
 

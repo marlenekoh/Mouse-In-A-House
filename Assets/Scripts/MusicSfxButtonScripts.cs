@@ -34,7 +34,7 @@ public class MusicSfxButtonScripts : MonoBehaviour {
             musicOn.gameObject.SetActive(false);
         }
 
-        if (SfxManager.muteSfx)
+        if (MusicManager.muteSfx)
         {
             sfxOff.gameObject.SetActive(true);
             sfxOn.gameObject.SetActive(false);
@@ -60,8 +60,8 @@ public class MusicSfxButtonScripts : MonoBehaviour {
 
     public void ToggleSfx()
     {
-        SfxManager.muteSfx = !SfxManager.muteSfx;
-        if (SfxManager.muteSfx)
+        MusicManager.muteSfx = !MusicManager.muteSfx;
+        if (MusicManager.muteSfx)
         {
             sfxSrc.Stop();
             sfxSrc.mute = true;
