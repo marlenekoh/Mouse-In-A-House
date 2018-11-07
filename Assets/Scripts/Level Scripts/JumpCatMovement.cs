@@ -34,6 +34,7 @@ public class JumpCatMovement : CatMovement
                     {
                         rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY));
                         isJumping = true;
+                        SfxManager.PlaySound("jumpingCat");
                     }
                 }
                 break;
@@ -43,6 +44,7 @@ public class JumpCatMovement : CatMovement
                     rb.AddForce(new Vector2(rb.velocity.x * 400, jumpSpeedY * 0.8f));
                     Debug.Log("jumppoint2");
                     isJumping = true;
+                    SfxManager.PlaySound("jumpingCat");
                 }
                 break;
             case "JumpPoint3": // jump over platform gap
@@ -52,6 +54,7 @@ public class JumpCatMovement : CatMovement
                     rb.AddForce(new Vector2(rb.velocity.x * 400, jumpSpeedY * 0.8f));
                     Debug.Log("jumppoint3");
                     isJumping = true;
+                    SfxManager.PlaySound("jumpingCat");
                 }
                 break;
         }
