@@ -32,7 +32,10 @@ public class CatMovement : MonoBehaviour
         //Always move forward
         if (isStunned)
         {
-            rb.velocity = new Vector3(0, 0, 0);
+            if (rb != null)
+            {
+                rb.velocity = new Vector3(0, 0, 0);
+            }
             anim.SetBool("isStunned", true);
         }
         else if (rb != null)

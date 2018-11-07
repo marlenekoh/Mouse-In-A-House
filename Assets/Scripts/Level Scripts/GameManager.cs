@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     private int totalCats = 1;
     private float gameStartTime;
     private int catCounter = 0; // if counter is 1, spawn cat at mouse level
+    private float[] catProb;
+    private float difficultyMod;
 
     private GameObject mouse;
     private Utils utils;
@@ -71,6 +73,13 @@ public class GameManager : MonoBehaviour
         catsKilled = new int[cats.Length];
         catCount = new int[cats.Length];
         catsToSpawn = new int[cats.Length];
+
+        catProb = new float[cats.Length];
+        catProb[BASIC_CAT_INDEX] = 2.0f / 3.0f;
+        catProb[JUMPING_CAT_INDEX] = 1.0f / 6.0f;
+        catProb[CHARGING_CAT_INDEX] = 1.0f / 6.0f;
+        difficultyMod = 0.0f;
+
         spawnIndexTakenList = new List<Transform>();
         level = 1;
         totalCats = 1;
@@ -113,9 +122,7 @@ public class GameManager : MonoBehaviour
     private void increaseLevel()
     {
         level += 1;
-        //Debug.Log("level" + level);
-        totalCats = (int)Mathf.Floor(0.5f * Mathf.Floor((Time.time - gameStartTime) / 60.0f) + 1);
-        //Debug.Log("totalcats " + totalCats);
+        totalCats = (int)Mathf.Floor(0.5f * Mathf.Floor((Time.time - gameStartTime) / 60.0f) + 1 + difficultyMod % 3);
     }
 
     public void spawnCat()
@@ -141,15 +148,27 @@ public class GameManager : MonoBehaviour
                 catsToSpawn[CHARGING_CAT_INDEX] = 1;
                 break;
             default:
-                Random.InitState(System.DateTime.Now.Millisecond);
+
                 int numCatsLeft = totalCats;
                 int currNumCats = 0;
+
+                //currNumCats = (int) Mathf.Ceil(catProb[BASIC_CAT_INDEX] * totalCats - (0.3f * ((Time.time - gameStartTime) / 60.0f)));
+                //catsToSpawn[BASIC_CAT_INDEX] = currNumCats;
+                //numCatsLeft -= currNumCats;
+
+                //currNumCats = (int)Mathf.Ceil(catProb[JUMPING_CAT_INDEX] * totalCats + (0.15f * ((Time.time - gameStartTime) / 60.0f)));
+                //catsToSpawn[JUMPING_CAT_INDEX] = currNumCats;
+                //numCatsLeft -= currNumCats;
+
+                //catsToSpawn[CHARGING_CAT_INDEX] = numCatsLeft;
+                //Debug.Log("numcatsleft " + numCatsLeft);
+
+                Random.InitState(System.DateTime.Now.Millisecond);
                 for (int i = 0; i < catsToSpawn.Length - 1; i++)
                 {
                     currNumCats = Random.Range(0, numCatsLeft + 1);
                     catsToSpawn[i] = currNumCats;
                     numCatsLeft -= currNumCats;
-                    catsToSpawn[i] = currNumCats;
                 }
                 catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
                 break;
@@ -165,6 +184,7 @@ public class GameManager : MonoBehaviour
                 int temp;
                 if (catCounter == 2)
                 {
+                    // spawn cat on same level as mouse
                     if (mouse.GetComponent<Transform>().position.y >= 1.7)
                     {
                         // spawn at top
@@ -270,13 +290,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private int chooseCat()
-    {
-        // TODO: Decide which cat to spawn based on number of cats killed etc etc
-        // TODO: Increment cat spawn count
-        Random.InitState(System.DateTime.Now.Millisecond);
-        return JUMPING_CAT_INDEX;
-    }
+    //private int chooseCat()
+    //{
+    //    // TODO: Decide which cat to spawn based on number of cats killed etc etc
+    //    // TODO: Increment cat spawn count
+    //    Random.InitState(System.DateTime.Now.Millisecond);
+    //    return JUMPING_CAT_INDEX;
+    //}
 
     public int getMaxSpeed()
     {
@@ -296,10 +316,9 @@ public class GameManager : MonoBehaviour
 
     public void updateSpawnDelay()
     {
-        // currently spawndelay is decreasing at rate of 0.15 because 3 cats
         if (spawnDelay > 1)
         {
-            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Floor((Time.time - gameStartTime) / 60.0f - 2), 3) + 3;
+            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Floor((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - 0.2f * difficultyMod;
             //Debug.Log("spawn delay " + spawnDelay);
             spawnCatsAfterN(spawnDelay, spawnDelay);
         }
@@ -345,11 +364,6 @@ public class GameManager : MonoBehaviour
         {
             newLocalScale.x = -newLocalScale.x;
         }
-        //if (index == CHARGING_CAT_INDEX)
-        //{
-        //    pos.y += 0.2f;
-        //    createdCat.transform.position = pos;
-        //}
         createdCat.transform.localScale = newLocalScale;
 
     }

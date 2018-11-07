@@ -13,9 +13,12 @@ public class JumpCatMovement : CatMovement
         {
             anim.SetBool("isJumping", true);
             // add artifical gravity to make jump smoother
-            Vector3 vel = rb.velocity;
-            vel.y -= 15 * Time.deltaTime;
-            rb.velocity = vel;
+            if (rb != null)
+            {
+                Vector3 vel = rb.velocity;
+                vel.y -= 15 * Time.deltaTime;
+                rb.velocity = vel;
+            }
         }
         else
         {
