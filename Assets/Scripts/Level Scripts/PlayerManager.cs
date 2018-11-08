@@ -189,7 +189,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator lagGameOver()
     {
         isDead = true;
-        yield return new WaitForSeconds(0.3f); // delay to play explosion anim
+        yield return new WaitForSeconds(0.5f); // delay to play explosion anim
         SfxManager.PlaySound("gameOverSound");
         GameManager.getInstance().gameOver();
     }

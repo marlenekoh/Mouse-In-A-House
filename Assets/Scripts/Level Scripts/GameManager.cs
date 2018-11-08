@@ -18,10 +18,12 @@ public class GameManager : MonoBehaviour
     public int sameLocationSpawnDelay;
     public float spawnDelay;
     public int numCatsEscaped;
-    public float TEMP;
-    public int TEMP2;
-    public int TEMP3;
-    public int TEMP4;
+    public float TimeModifier;
+    public int NumCatsKillForIncrement;
+    public int NumCatsSiameded;
+    public int LevelDampener;
+    public int LevelCap;
+    public int NumCatKills;
 
     // for adaptive difficulty
     public int level = 1;
@@ -142,19 +144,19 @@ public class GameManager : MonoBehaviour
         level += 1;
         float currTime = Time.time;
 
-        if (numCatsEscaped / TEMP3 >= 1)
+        if (numCatsEscaped / NumCatsSiameded >= 1)
         {
             difficultyMod--;
             if (difficultyMod > 5)
             {
                 difficultyMod--;
             }
-            difficultyMod = (difficultyMod>TEMP2) ? TEMP2 : Mathf.Max(difficultyModMin, difficultyMod);
+            difficultyMod = (difficultyMod>LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
             
         }
 
         int prevCats = totalCats;
-        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod / TEMP2); // for every TEMP2 cats
+        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod / NumCatsKillForIncrement); // for every TEMP2 cats
 
         if (prevCats != totalCats) // when I increase number of cats spawning per wave, increase back spawndelay
         {
@@ -224,7 +226,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-
+        Debug.Log(mouse.GetComponent<Transform>().position);
 
         for (int i = 0; i < catsToSpawn.Length; i++) // for each type of cat
         {
@@ -232,26 +234,23 @@ public class GameManager : MonoBehaviour
             {
                 // to prevent cats from spawning in the same spot
                 int spawnIndex;
-                int temp;
-                if (catCounter == 2)
+                if (catCounter == 1)
                 {
                     // spawn cat on same level as mouse
-                    if (mouse.GetComponent<Transform>().position.y >= 1.7)
+                    if (mouse.GetComponent<Transform>().position.y >= 1.6)
                     {
                         // spawn at top
                         spawnIndex = 0;
-                        temp = (int)Mathf.Floor(Random.Range(0, 2));
-                        if (temp == 1)
+                        if (mouse.GetComponent<Transform>().position.x >= -2.1)
                         {
                             spawnIndex = 3;
                         }
                     }
-                    else if (mouse.GetComponent<Transform>().position.y >= -0.6)
+                    else if (mouse.GetComponent<Transform>().position.y >= -0.7)
                     {
                         // spawn at middle
                         spawnIndex = 1;
-                        temp = (int)Mathf.Floor(Random.Range(0, 2));
-                        if (temp == 1)
+                        if (mouse.GetComponent<Transform>().position.x >= -2.1)
                         {
                             spawnIndex = 4;
                         }
@@ -260,8 +259,7 @@ public class GameManager : MonoBehaviour
                     {
                         // spawn at bottom
                         spawnIndex = 2;
-                        temp = (int)Mathf.Floor(Random.Range(0, 2));
-                        if (temp == 1)
+                        if (mouse.GetComponent<Transform>().position.x >= -2.1)
                         {
                             spawnIndex = 5;
                         }
@@ -306,7 +304,7 @@ public class GameManager : MonoBehaviour
         }
         catsKilled[catIndex]++;
 
-        if (killCounter == 2)
+        if (killCounter == NumCatKills)
         {
             difficultyMod++;
             killCounter = 0;
@@ -316,7 +314,7 @@ public class GameManager : MonoBehaviour
             killCounter++;
         }
 
-        if (difficultyMod < TEMP4)
+        if (difficultyMod < LevelDampener)
         {
             numCatsEscaped = 0;
         }
@@ -386,7 +384,7 @@ public class GameManager : MonoBehaviour
         if (spawnDelay > 1)
         {
             //Debug.Log("spawn delay " + spawnDelay);
-            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Round((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - TEMP * difficultyMod;
+            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Round((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - TimeModifier * difficultyMod;
         }
         else
         {

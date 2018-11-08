@@ -10,7 +10,7 @@ public class CatMovement : MonoBehaviour
     protected Rigidbody2D rb;
     protected Transform trans;
     protected GameObject mouse;
-    protected float speed;
+    public float speed;
     protected int maxSpeed; // TODO: to vary according to adaptive difficulty
     protected bool isStunned;
     protected bool isDead;
