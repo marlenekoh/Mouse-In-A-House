@@ -151,26 +151,32 @@ public class GameManager : MonoBehaviour
 
                 int numCatsLeft = totalCats;
                 int currNumCats = 0;
+                Debug.Log("level " + level);
 
-                //currNumCats = (int) Mathf.Ceil(catProb[BASIC_CAT_INDEX] * totalCats - (0.3f * ((Time.time - gameStartTime) / 60.0f)));
-                //catsToSpawn[BASIC_CAT_INDEX] = currNumCats;
-                //numCatsLeft -= currNumCats;
-
-                //currNumCats = (int)Mathf.Ceil(catProb[JUMPING_CAT_INDEX] * totalCats + (0.15f * ((Time.time - gameStartTime) / 60.0f)));
-                //catsToSpawn[JUMPING_CAT_INDEX] = currNumCats;
-                //numCatsLeft -= currNumCats;
-
-                //catsToSpawn[CHARGING_CAT_INDEX] = numCatsLeft;
+                currNumCats = (int)Mathf.Round(totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f)));
+                catsToSpawn[BASIC_CAT_INDEX] = currNumCats;
+                numCatsLeft -= currNumCats;
+                //Debug.Log("totalcats " + totalCats);
+                //Debug.Log("math ceiling " + (totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f))));
                 //Debug.Log("numcatsleft " + numCatsLeft);
 
-                Random.InitState(System.DateTime.Now.Millisecond);
-                for (int i = 0; i < catsToSpawn.Length - 1; i++)
-                {
-                    currNumCats = Random.Range(0, numCatsLeft + 1);
-                    catsToSpawn[i] = currNumCats;
-                    numCatsLeft -= currNumCats;
-                }
-                catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
+                currNumCats = (int)Mathf.Round(totalCats * (catProb[JUMPING_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f)));
+                catsToSpawn[JUMPING_CAT_INDEX] = currNumCats;
+                numCatsLeft -= currNumCats;
+                //Debug.Log("second math ceiling " + (totalCats * (catProb[JUMPING_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f))));
+                //Debug.Log("numcatsleft " + numCatsLeft);
+
+
+                catsToSpawn[CHARGING_CAT_INDEX] = numCatsLeft;
+
+                //Random.InitState(System.DateTime.Now.Millisecond);
+                //for (int i = 0; i < catsToSpawn.Length - 1; i++)
+                //{
+                //    currNumCats = Random.Range(0, numCatsLeft + 1);
+                //    catsToSpawn[i] = currNumCats;
+                //    numCatsLeft -= currNumCats;
+                //}
+                //catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
                 break;
         }
 
