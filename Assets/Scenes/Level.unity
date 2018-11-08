@@ -388,6 +388,7 @@ MonoBehaviour:
   level: 1
   totalCats: 1
   difficultyMod: 0
+  difficultyModMin: 0
   spawnIndexTakenList: []
 --- !u!4 &58547805
 Transform:
@@ -441,6 +442,10 @@ MonoBehaviour:
   musicOff: {fileID: 403249980}
   sfxOn: {fileID: 1797247953}
   sfxOff: {fileID: 257463138}
+  sfxManager: {fileID: 0}
+  musicManager: {fileID: 0}
+  sfxSrc: {fileID: 0}
+  musicSrc: {fileID: 0}
 --- !u!1001 &62993170
 Prefab:
   m_ObjectHideFlags: 0

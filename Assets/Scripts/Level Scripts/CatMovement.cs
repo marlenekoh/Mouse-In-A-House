@@ -13,6 +13,7 @@ public class CatMovement : MonoBehaviour
     protected float speed;
     protected int maxSpeed; // TODO: to vary according to adaptive difficulty
     protected bool isStunned;
+    protected bool isDead;
 
     protected void Start()
     {
@@ -30,13 +31,16 @@ public class CatMovement : MonoBehaviour
     protected void FixedUpdate()
     {
         //Always move forward
-        if (isStunned)
+        if (isStunned || isDead)
         {
             if (rb != null)
             {
                 rb.velocity = new Vector3(0, 0, 0);
             }
-            anim.SetBool("isStunned", true);
+            if (isStunned)
+            {
+                anim.SetBool("isStunned", true);
+            }
         }
         else if (rb != null)
         {
@@ -83,6 +87,7 @@ public class CatMovement : MonoBehaviour
     public void onCatDeath()
     {
         gameObject.tag = "Untagged";
+        isDead = true;
         //gameObject.GetComponent<BoxCollider2D>().enabled = false;
         //Destroy(rb);
         foreach (Transform child in gameObject.transform)

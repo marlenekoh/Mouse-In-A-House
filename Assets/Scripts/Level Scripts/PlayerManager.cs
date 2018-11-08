@@ -53,10 +53,11 @@ public class PlayerManager : MonoBehaviour
 
         if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            isJumping = true;
-            SfxManager.PlaySound("jump");
-            anim.SetBool("isJumping", true);
-            rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
+            jump(false);
+            //isJumping = true;
+            //SfxManager.PlaySound("jump");
+            //anim.SetBool("isJumping", true);
+            //rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
         // add fake gravity to land faster
         if (isJumping)
@@ -82,6 +83,22 @@ public class PlayerManager : MonoBehaviour
             Vector3 temp = transform.localScale;
             temp.x *= -1;
             transform.localScale = temp;
+        }
+    }
+
+    public void jump(bool isRecoil)
+    {
+        isJumping = true;
+        SfxManager.PlaySound("jump");
+        anim.SetBool("isJumping", true);
+
+        if (isRecoil)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY * 0.8f, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
         }
     }
 
@@ -148,6 +165,10 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
             SfxManager.PlaySound("killCat");
+            Vector3 tempVel = rb.velocity;
+            tempVel.x = 0;
+            rb.velocity = tempVel;
+            jump(true);
             GameManager.getInstance().onSuccessfulKill(deadCat);
         }
 
