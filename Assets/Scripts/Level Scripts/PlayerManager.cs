@@ -30,6 +30,10 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.getInstance().debugInvincibleMode)
+        {
+            isDead = false;
+        }
         // move left, stop
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
 

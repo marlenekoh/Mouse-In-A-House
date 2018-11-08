@@ -55,6 +55,9 @@ public class CatMovement : MonoBehaviour
     {
         GameManager.getInstance().destroyCat(gameObject);
         GameManager.getInstance().updateSpawnDelay();
+        GameManager.getInstance().numCatsEscaped++;
+        Debug.Log("numCatsEscaped " + GameManager.getInstance().numCatsEscaped);
+
     }
 
     public void setSpeed(int newSpeed)

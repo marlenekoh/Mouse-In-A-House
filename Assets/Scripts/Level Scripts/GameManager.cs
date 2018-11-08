@@ -17,15 +17,23 @@ public class GameManager : MonoBehaviour
     public int[] catsToSpawn;
     public int sameLocationSpawnDelay;
     public float spawnDelay;
+    public int numCatsEscaped;
+    public float TEMP;
+    public int TEMP2;
+    public int TEMP3;
+    public int TEMP4;
 
     // for adaptive difficulty
-    private int level = 1;
-    private int totalCats = 1;
+    public int level = 1;
+
+    public int totalCats = 1;
     private float gameStartTime;
     private int catCounter = 0; // if counter is 1, spawn cat at mouse level
     private float[] catProb;
     private int[] catProportion;
-    private float difficultyMod;
+    private int killCounter;
+
+    public int difficultyMod;
 
     private GameObject mouse;
     private Utils utils;
@@ -59,6 +67,8 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(waitNSeconds(1));
         }
+
+
     }
 
     public static GameManager getInstance()
@@ -79,24 +89,13 @@ public class GameManager : MonoBehaviour
         catProb[BASIC_CAT_INDEX] = 2.0f / 3.0f;
         catProb[JUMPING_CAT_INDEX] = 1.0f / 6.0f;
         catProb[CHARGING_CAT_INDEX] = 1.0f / 6.0f;
-        difficultyMod = 0.0f;
+        difficultyMod = 0;
+        numCatsEscaped = 0;
+        killCounter = 0;
 
-        //catProportion = new int[12];
-        //for (int i = 0; i < 12; i++)
-        //{
-        //    if (i < 8)
-        //    {
-        //        catProportion[i] = BASIC_CAT_INDEX;
-        //    }
-        //    else if (i >= 8 && i < 10)
-        //    {
-        //        catProportion[i] = JUMPING_CAT_INDEX;
-        //    }
-        //    else
-        //    {
-        //        catProportion[i] = CHARGING_CAT_INDEX;
-        //    }
-        //}
+        //TEMP = 0.2f;
+        //TEMP2 = 3;
+        //TEMP3 = 5;
 
         spawnIndexTakenList = new List<Transform>();
         level = 1;
@@ -141,8 +140,30 @@ public class GameManager : MonoBehaviour
     {
         level += 1;
         float currTime = Time.time;
-        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod % 3);
-        Debug.Log("level " + level);
+
+        if (numCatsEscaped / TEMP3 >= 1)
+        {
+            difficultyMod--;
+            if (difficultyMod > 5)
+            {
+                difficultyMod--;
+            }
+            difficultyMod = (difficultyMod>TEMP2) ? TEMP2 : Mathf.Max(-4, difficultyMod);
+            
+        }
+
+        int prevCats = totalCats;
+        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod / TEMP2); // for every TEMP2 cats
+
+        if (prevCats != totalCats) // when I increase number of cats spawning per wave, increase back spawndelay
+        {
+            gameStartTime = Time.time;
+        }
+
+        //Debug.Log("level " + level);
+        //Debug.Log("Difficulty mod " + difficultyMod);
+        //Debug.Log("numCatsEscaped " + numCatsEscaped);
+
 
         catProportion = new int[12];
         for (int i = 0; i < 12; i++)
@@ -283,6 +304,22 @@ public class GameManager : MonoBehaviour
             cat.GetComponent<CatMovement>().onCatDeath();
         }
         catsKilled[catIndex]++;
+
+        if (killCounter == 2)
+        {
+            difficultyMod++;
+            killCounter = 0;
+        }
+        else
+        {
+            killCounter++;
+        }
+
+        if (difficultyMod < TEMP4)
+        {
+            numCatsEscaped = 0;
+        }
+
         SfxManager.PlaySound("catDeathCry");
         destroyCat(cat);
         stunAllCats(cat);
@@ -347,8 +384,16 @@ public class GameManager : MonoBehaviour
     {
         if (spawnDelay > 1)
         {
-            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Floor((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - 0.2f * difficultyMod;
             //Debug.Log("spawn delay " + spawnDelay);
+            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Round((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - TEMP * difficultyMod;
+        }
+        else
+        {
+            spawnDelay = 1;
+        }
+       
+        if (!stunModeOn)
+        {
             spawnCatsAfterN(spawnDelay, spawnDelay);
         }
     }
