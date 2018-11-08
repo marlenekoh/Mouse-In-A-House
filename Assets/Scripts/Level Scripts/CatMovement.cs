@@ -79,13 +79,16 @@ public class CatMovement : MonoBehaviour
 
     public void onCatDeath()
     {
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        Destroy(rb);
+        gameObject.tag = "Untagged";
+        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        //Destroy(rb);
         foreach (Transform child in gameObject.transform)
         {
             if (child.gameObject.tag != "CatBack" && child.gameObject.GetComponent<BoxCollider2D>() != null)
             {
-                child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                //child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                child.gameObject.tag = "Untagged";
+                
             }
         }
         anim.SetTrigger("isDead");

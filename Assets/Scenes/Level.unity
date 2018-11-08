@@ -375,7 +375,7 @@ MonoBehaviour:
   gameOverObject: {fileID: 1756128343}
   explosion: {fileID: 1265816309326572, guid: 2a52de736dae928479e4e0db83b17ce1, type: 2}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
   catsKilled: 
   catsToSpawn: 01000000
   sameLocationSpawnDelay: 5
@@ -2804,7 +2804,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1751728859683518, guid: e9095c2a3736cb543a4c2c7acb8902db, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9095c2a3736cb543a4c2c7acb8902db, type: 2}

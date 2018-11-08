@@ -12,6 +12,7 @@ TagManager:
   - CatBox
   - StopPoint
   - JumpPoint3
+  - Platform
   layers:
   - Default
   - TransparentFX
