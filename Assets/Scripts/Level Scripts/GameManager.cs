@@ -476,7 +476,7 @@ public class GameManager : MonoBehaviour
             catIndex = BASIC_CAT_INDEX;
         }
 
-        yield return new WaitForSeconds(1.5f); // delay 1 second
+        yield return new WaitForSeconds(2.0f); // delay 1 second
 
         if (cat != null)
         {

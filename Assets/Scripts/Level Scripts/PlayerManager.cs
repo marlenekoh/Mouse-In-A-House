@@ -165,10 +165,10 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
             SfxManager.PlaySound("killCat");
-            Vector3 tempVel = rb.velocity;
-            tempVel.x = 0;
-            rb.velocity = tempVel;
-            jump(true);
+            //Vector3 tempVel = rb.velocity;
+            //tempVel.x = 0;
+            //rb.velocity = tempVel;
+            //jump(true);
             GameManager.getInstance().onSuccessfulKill(deadCat);
         }
 
