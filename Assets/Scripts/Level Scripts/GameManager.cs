@@ -151,20 +151,21 @@ public class GameManager : MonoBehaviour
 
                 int numCatsLeft = totalCats;
                 int currNumCats = 0;
-                Debug.Log("level " + level);
+                //Debug.Log("level " + level);
 
-                currNumCats = (int)Mathf.Round(totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f)));
+                float currTime = Time.time;
+                currNumCats = (int)Mathf.Round(totalCats * (catProb[BASIC_CAT_INDEX] - 0.3f * ((currTime - gameStartTime) / 60.0f)));
                 catsToSpawn[BASIC_CAT_INDEX] = currNumCats;
                 numCatsLeft -= currNumCats;
-                //Debug.Log("totalcats " + totalCats);
-                //Debug.Log("math ceiling " + (totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f))));
-                //Debug.Log("numcatsleft " + numCatsLeft);
+                Debug.Log("totalcats " + totalCats);
+                Debug.Log("math round " + (totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((currTime - gameStartTime) / 60.0f))));
+                Debug.Log("numcatsleft " + numCatsLeft);
 
-                currNumCats = (int)Mathf.Round(totalCats * (catProb[JUMPING_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f)));
+                currNumCats = (int)Mathf.Round(totalCats * (catProb[JUMPING_CAT_INDEX] + 0.15f * ((currTime - gameStartTime) / 60.0f)));
                 catsToSpawn[JUMPING_CAT_INDEX] = currNumCats;
                 numCatsLeft -= currNumCats;
-                //Debug.Log("second math ceiling " + (totalCats * (catProb[JUMPING_CAT_INDEX] + 0.3f * ((Time.time - gameStartTime) / 60.0f))));
-                //Debug.Log("numcatsleft " + numCatsLeft);
+                Debug.Log("second math round " + (totalCats * (catProb[JUMPING_CAT_INDEX] + 0.15f * ((currTime - gameStartTime) / 60.0f))));
+                Debug.Log("numcatsleft " + numCatsLeft);
 
 
                 catsToSpawn[CHARGING_CAT_INDEX] = numCatsLeft;
