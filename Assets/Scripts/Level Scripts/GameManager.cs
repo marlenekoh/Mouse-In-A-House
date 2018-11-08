@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private float gameStartTime;
     private int catCounter = 0; // if counter is 1, spawn cat at mouse level
     private float[] catProb;
+    private int[] catProportion;
     private float difficultyMod;
 
     private GameObject mouse;
@@ -80,6 +81,23 @@ public class GameManager : MonoBehaviour
         catProb[CHARGING_CAT_INDEX] = 1.0f / 6.0f;
         difficultyMod = 0.0f;
 
+        //catProportion = new int[12];
+        //for (int i = 0; i < 12; i++)
+        //{
+        //    if (i < 8)
+        //    {
+        //        catProportion[i] = BASIC_CAT_INDEX;
+        //    }
+        //    else if (i >= 8 && i < 10)
+        //    {
+        //        catProportion[i] = JUMPING_CAT_INDEX;
+        //    }
+        //    else
+        //    {
+        //        catProportion[i] = CHARGING_CAT_INDEX;
+        //    }
+        //}
+
         spawnIndexTakenList = new List<Transform>();
         level = 1;
         totalCats = 1;
@@ -122,7 +140,28 @@ public class GameManager : MonoBehaviour
     private void increaseLevel()
     {
         level += 1;
-        totalCats = (int)Mathf.Floor(0.5f * Mathf.Floor((Time.time - gameStartTime) / 60.0f) + 1 + difficultyMod % 3);
+        float currTime = Time.time;
+        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod % 3);
+        Debug.Log("level " + level);
+
+        catProportion = new int[12];
+        for (int i = 0; i < 12; i++)
+        {
+            int multiplier = (int) Mathf.Min(Mathf.Round((currTime - gameStartTime) / 60.0f), 3);
+
+            if (i < 8 - 2 * multiplier)
+            {
+                catProportion[i] = BASIC_CAT_INDEX;
+            }
+            else if (i >= 8 - 2 * multiplier && i < 10 - multiplier)
+            {
+                catProportion[i] = JUMPING_CAT_INDEX;
+            }
+            else
+            {
+                catProportion[i] = CHARGING_CAT_INDEX;
+            }
+        }
     }
 
     public void spawnCat()
@@ -148,36 +187,19 @@ public class GameManager : MonoBehaviour
                 catsToSpawn[CHARGING_CAT_INDEX] = 1;
                 break;
             default:
-
                 int numCatsLeft = totalCats;
-                int currNumCats = 0;
                 //Debug.Log("level " + level);
 
                 float currTime = Time.time;
-                currNumCats = (int)Mathf.Round(totalCats * (catProb[BASIC_CAT_INDEX] - 0.3f * ((currTime - gameStartTime) / 60.0f)));
-                catsToSpawn[BASIC_CAT_INDEX] = currNumCats;
-                numCatsLeft -= currNumCats;
-                Debug.Log("totalcats " + totalCats);
-                Debug.Log("math round " + (totalCats * (catProb[BASIC_CAT_INDEX] + 0.3f * ((currTime - gameStartTime) / 60.0f))));
-                Debug.Log("numcatsleft " + numCatsLeft);
 
-                currNumCats = (int)Mathf.Round(totalCats * (catProb[JUMPING_CAT_INDEX] + 0.15f * ((currTime - gameStartTime) / 60.0f)));
-                catsToSpawn[JUMPING_CAT_INDEX] = currNumCats;
-                numCatsLeft -= currNumCats;
-                Debug.Log("second math round " + (totalCats * (catProb[JUMPING_CAT_INDEX] + 0.15f * ((currTime - gameStartTime) / 60.0f))));
-                Debug.Log("numcatsleft " + numCatsLeft);
+                Random.InitState(System.DateTime.Now.Millisecond);
+                catsToSpawn = new int [cats.Length];
 
-
-                catsToSpawn[CHARGING_CAT_INDEX] = numCatsLeft;
-
-                //Random.InitState(System.DateTime.Now.Millisecond);
-                //for (int i = 0; i < catsToSpawn.Length - 1; i++)
-                //{
-                //    currNumCats = Random.Range(0, numCatsLeft + 1);
-                //    catsToSpawn[i] = currNumCats;
-                //    numCatsLeft -= currNumCats;
-                //}
-                //catsToSpawn[catsToSpawn.Length - 1] = numCatsLeft;
+                for (int i=0; i<totalCats; i++)
+                {
+                    int currCatToSpawn = Random.Range(0, catProportion.Length);
+                    catsToSpawn[catProportion[currCatToSpawn]]++;
+                }
                 break;
         }
 
@@ -201,7 +223,6 @@ public class GameManager : MonoBehaviour
                         {
                             spawnIndex = 3;
                         }
-
                     }
                     else if (mouse.GetComponent<Transform>().position.y >= -0.6)
                     {
@@ -238,6 +259,7 @@ public class GameManager : MonoBehaviour
                 spawnIndexTakenList.Add(spawnPoints[spawnIndex]);
 
                 StartCoroutine(spawnCatBox(i, spawnIndex));
+                StartCoroutine(freeSpawnPoint(spawnIndex));
             }
         }
     }
