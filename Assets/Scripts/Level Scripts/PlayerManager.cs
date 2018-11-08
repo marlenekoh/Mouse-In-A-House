@@ -129,8 +129,10 @@ public class PlayerManager : MonoBehaviour
             {
                 // game over code
                 anim.SetTrigger("isDead");
-                isDead = true;
-                StartCoroutine(lagGameOver());
+                if (!isDead)
+                {
+                    StartCoroutine(lagGameOver());
+                }
             }
         }
     }
@@ -151,15 +153,18 @@ public class PlayerManager : MonoBehaviour
             if (!catIsStunned(collision.gameObject))
             {
                 anim.SetTrigger("isDead");
-                isDead = true;
-                StartCoroutine(lagGameOver());
+                if (!isDead)
+                {
+                    StartCoroutine(lagGameOver());
+                }
             }
         }
     }
 
     IEnumerator lagGameOver()
     {
-        yield return new WaitForSeconds(0.5f); // delay 1 second
+        isDead = true;
+        yield return new WaitForSeconds(0.3f); // delay to play explosion anim
         SfxManager.PlaySound("gameOverSound");
         GameManager.getInstance().gameOver();
     }
