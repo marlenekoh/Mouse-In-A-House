@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private int killCounter;
 
     public int difficultyMod;
+    public int difficultyModMin;
 
     private GameObject mouse;
     private Utils utils;
@@ -148,7 +149,7 @@ public class GameManager : MonoBehaviour
             {
                 difficultyMod--;
             }
-            difficultyMod = (difficultyMod>TEMP2) ? TEMP2 : Mathf.Max(-4, difficultyMod);
+            difficultyMod = (difficultyMod>TEMP2) ? TEMP2 : Mathf.Max(difficultyModMin, difficultyMod);
             
         }
 

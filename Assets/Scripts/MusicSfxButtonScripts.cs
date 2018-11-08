@@ -10,18 +10,13 @@ public class MusicSfxButtonScripts : MonoBehaviour {
     public Button sfxOn;
     public Button sfxOff;
 
-    private SfxManager sfxManager;
-    private MusicManager musicManager;
-    private AudioSource sfxSrc;
-    private AudioSource musicSrc;
+    public SfxManager sfxManager;
+    public MusicManager musicManager;
+    public AudioSource sfxSrc;
+    public AudioSource musicSrc;
 
     // Use this for initialization
     void Start () {
-        sfxManager = GameObject.Find("SfxManager").GetComponent<SfxManager>();
-        musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
-        sfxSrc = sfxManager.getAudioSource();
-        musicSrc = musicManager.getAudioSource();
-
         musicOn.onClick.AddListener(ToggleMusic);
         musicOff.onClick.AddListener(ToggleMusic);
 
@@ -39,6 +34,15 @@ public class MusicSfxButtonScripts : MonoBehaviour {
             sfxOff.gameObject.SetActive(true);
             sfxOn.gameObject.SetActive(false);
         }
+    }
+
+    public void FixedUpdate()
+    {
+        sfxManager = GameObject.Find("SfxManager").GetComponent<SfxManager>();
+        sfxSrc = sfxManager.getAudioSource();
+
+        musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
+        musicSrc = musicManager.getAudioSource();
     }
 
     public void ToggleMusic()

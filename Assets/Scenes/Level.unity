@@ -375,11 +375,19 @@ MonoBehaviour:
   gameOverObject: {fileID: 1756128343}
   explosion: {fileID: 1265816309326572, guid: 2a52de736dae928479e4e0db83b17ce1, type: 2}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
   catsKilled: 
   catsToSpawn: 01000000
   sameLocationSpawnDelay: 5
   spawnDelay: 4
+  numCatsEscaped: 0
+  TEMP: 0.1
+  TEMP2: 7
+  TEMP3: 3
+  TEMP4: 4
+  level: 1
+  totalCats: 1
+  difficultyMod: 0
   spawnIndexTakenList: []
 --- !u!4 &58547805
 Transform:
@@ -4005,7 +4013,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4718249334471164, guid: f6241b10b26caf44688f76c4afb2775c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.418
+      value: 4.16
       objectReference: {fileID: 0}
     - target: {fileID: 4718249334471164, guid: f6241b10b26caf44688f76c4afb2775c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4842,12 +4850,12 @@ Prefab:
     - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
         type: 2}
       propertyPath: m_Offset.y
-      value: -0.11638427
+      value: 0.002304297
       objectReference: {fileID: 0}
     - target: {fileID: 61413139124763182, guid: f6241b10b26caf44688f76c4afb2775c,
         type: 2}
       propertyPath: m_Size.y
-      value: 0.4427685
+      value: 0.20539135
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6241b10b26caf44688f76c4afb2775c, type: 2}
