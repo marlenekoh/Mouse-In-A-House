@@ -151,8 +151,6 @@ public class GameManager : MonoBehaviour
             {
                 difficultyMod--;
             }
-            difficultyMod = (difficultyMod>LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
-            
         }
 
         int prevCats = totalCats;
@@ -318,6 +316,9 @@ public class GameManager : MonoBehaviour
         {
             numCatsEscaped = 0;
         }
+
+        difficultyMod = (difficultyMod > LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
+
 
         SfxManager.PlaySound("catDeathCry");
         destroyCat(cat);
