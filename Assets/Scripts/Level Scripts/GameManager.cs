@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
     public int level = 1;
 
     public int totalCats = 1;
+    public int totalCatsMinusDiff = 1;
     private float gameStartTime;
+    private float gameStartSpawnTime;
     private int catCounter = 0; // if counter is 1, spawn cat at mouse level
     private float[] catProb;
     private int[] catProportion;
@@ -103,10 +105,12 @@ public class GameManager : MonoBehaviour
         spawnIndexTakenList = new List<Transform>();
         level = 1;
         totalCats = 1;
+        totalCatsMinusDiff = 1;
         InvokeRepeating("increaseLevel", spawnDelay, spawnDelay);
 
         spawnCatsAfterN(1.0f, spawnDelay);
         gameStartTime = Time.time;
+        gameStartSpawnTime = Time.time;
 
         gameOverObject.SetActive(false);
         utils.pauseGame(false);
@@ -155,15 +159,17 @@ public class GameManager : MonoBehaviour
             {
                 difficultyMod--;
             }
+            numCatsEscaped = 0;
         }
         difficultyMod = (difficultyMod > LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
 
-        int prevCats = totalCats;
-        totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod / NumCatsKillForIncrement); // for every TEMP2 cats
+        int prevCats = totalCatsMinusDiff;
+        totalCatsMinusDiff  = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1);
+        totalCats = Mathf.Min(4,(totalCatsMinusDiff + (difficultyMod / NumCatsKillForIncrement))); // for every TEMP2 cats
 
-        if (prevCats != totalCats) // when I increase number of cats spawning per wave, increase back spawndelay
+        if (prevCats != totalCatsMinusDiff) // when I increase number of cats spawning per wave, increase back spawndelay
         {
-            gameStartTime = Time.time;
+            gameStartSpawnTime = Time.time;
         }
 
         //Debug.Log("level " + level);
@@ -390,7 +396,7 @@ public class GameManager : MonoBehaviour
         if (spawnDelay > 1)
         {
             //Debug.Log("spawn delay " + spawnDelay);
-            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Round((Time.time - gameStartTime) / 60.0f - 2), 3) + 3 - TimeModifier * difficultyMod;
+            spawnDelay = -1.0f / 16 * Mathf.Pow(Mathf.Round((Time.time - gameStartSpawnTime) / 60.0f - 2), 3) + 3 - TimeModifier * difficultyMod;
         }
         else
         {

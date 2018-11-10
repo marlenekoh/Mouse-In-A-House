@@ -375,7 +375,7 @@ MonoBehaviour:
   gameOverObject: {fileID: 1756128343}
   explosion: {fileID: 1265816309326572, guid: 2a52de736dae928479e4e0db83b17ce1, type: 2}
   catBox: {fileID: 1216740014293160, guid: d3ffe422e15276c429298b618a286c6c, type: 2}
-  debugInvincibleMode: 1
+  debugInvincibleMode: 0
   catsKilled: 
   catsToSpawn: 01000000
   sameLocationSpawnDelay: 5
@@ -383,7 +383,7 @@ MonoBehaviour:
   numCatsEscaped: 5
   TimeModifier: 0.2
   NumCatsKillForIncrement: 3
-  NumCatsSiameded: 5
+  NumCatsSiameded: 3
   LevelDampener: 4
   LevelCap: 7
   NumCatKills: 0
