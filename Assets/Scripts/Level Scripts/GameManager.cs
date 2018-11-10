@@ -146,12 +146,17 @@ public class GameManager : MonoBehaviour
 
         if (numCatsEscaped / NumCatsSiameded >= 1)
         {
-            difficultyMod--;
+            if (difficultyMod >= difficultyModMin)
+            {
+                difficultyMod--;
+            }
+            
             if (difficultyMod > 5)
             {
                 difficultyMod--;
             }
         }
+        difficultyMod = (difficultyMod > LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
 
         int prevCats = totalCats;
         totalCats = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1 + difficultyMod / NumCatsKillForIncrement); // for every TEMP2 cats
