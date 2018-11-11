@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         difficultyMod = (difficultyMod > LevelCap) ? LevelCap : Mathf.Max(difficultyModMin, difficultyMod);
 
         int prevCats = totalCatsMinusDiff;
-        totalCatsMinusDiff  = (int)Mathf.Round(0.5f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1);
+        totalCatsMinusDiff  = (int)Mathf.Floor(0.3f * Mathf.Round((currTime - gameStartTime) / 60.0f) + 1);
         totalCats = Mathf.Min(4,(totalCatsMinusDiff + (difficultyMod / NumCatsKillForIncrement))); // for every TEMP2 cats
 
         if (prevCats != totalCatsMinusDiff) // when I increase number of cats spawning per wave, increase back spawndelay
