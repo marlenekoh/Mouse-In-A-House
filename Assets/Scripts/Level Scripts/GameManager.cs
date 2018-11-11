@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverObject;
     public GameObject explosion;
     public GameObject catBox;
+    public GameObject stunTimer;
     public bool debugInvincibleMode;
     public int[] catsKilled;
     public int[] catsToSpawn;
@@ -66,16 +67,6 @@ public class GameManager : MonoBehaviour
         mouse.GetComponent<SpriteRenderer>().enabled = true;
         utils = gameObject.GetComponent<Utils>();
         startGame();
-    }
-
-    private void Update()
-    {
-        if (stunModeOn)
-        {
-            StartCoroutine(waitNSeconds(1));
-        }
-
-
     }
 
     public static GameManager getInstance()
@@ -371,6 +362,10 @@ public class GameManager : MonoBehaviour
         if (!stunModeOn)
         {
             stunModeOn = true;
+            stunTimer.SetActive(true);
+            stunTimer.GetComponentInChildren<Animator>().SetTrigger("stunCountdown");
+            StartCoroutine(waitForStunTimer());
+
             GameObject[] existingCats = GameObject.FindGameObjectsWithTag("Cat");
 
             for (int i = 0; i < existingCats.Length; i++)
@@ -469,11 +464,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    IEnumerator waitNSeconds(float n)
-    {
-        yield return new WaitForSeconds(n); // delay 1 second
-        stunModeOn = false;
-    }
 
     IEnumerator freeSpawnPoint(int spawnIndex)
     {
@@ -502,7 +492,8 @@ public class GameManager : MonoBehaviour
             catIndex = BASIC_CAT_INDEX;
         }
 
-        yield return new WaitForSeconds(2.0f); // delay 1 second
+        yield return new WaitForSeconds(3.0f); // delay 3 seconds
+        stunModeOn = false;
 
         if (cat != null)
         {
@@ -519,5 +510,11 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    IEnumerator waitForStunTimer()
+    {
+        yield return new WaitForSeconds(4.0f);
+        stunTimer.SetActive(false);
     }
 }
