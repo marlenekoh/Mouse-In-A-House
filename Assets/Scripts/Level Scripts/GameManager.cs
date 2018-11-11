@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour
     public int NumCatsSiameded;
     public int LevelDampener;
     public int LevelCap;
-    public int NumCatKills;
+    public int NumBasicCatKills;
+    public int NumJumpCatKills;
+    public int NumChargeCatKills;
 
     // for adaptive difficulty
     public int level = 1;
@@ -313,15 +315,21 @@ public class GameManager : MonoBehaviour
         }
         catsKilled[catIndex]++;
 
-        if (killCounter == NumCatKills)
+        if ((catsKilled[BASIC_CAT_INDEX] == NumBasicCatKills) || (catsKilled[JUMPING_CAT_INDEX] == NumJumpCatKills) || (catsKilled[CHARGING_CAT_INDEX] == NumChargeCatKills))
         {
             difficultyMod++;
-            killCounter = 0;
+            resetCounters();
         }
-        else
-        {
-            killCounter++;
-        }
+
+        //if (killCounter == NumCatKills)
+        //{
+        //    //difficultyMod++;
+        //    killCounter = 0;
+        //}
+        //else
+        //{
+        //    killCounter++;
+        //}
 
         if (difficultyMod < LevelDampener)
         {
@@ -335,6 +343,14 @@ public class GameManager : MonoBehaviour
         destroyCat(cat);
         stunAllCats(cat);
 
+    }
+
+    private void resetCounters()
+    {
+        for (int i = 0; i < cats.Length; i++)
+        {
+            catsKilled[i] = 0;
+        }
     }
 
     public void destroyCat(GameObject cat)
