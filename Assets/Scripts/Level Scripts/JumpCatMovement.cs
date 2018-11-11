@@ -26,7 +26,7 @@ public class JumpCatMovement : CatMovement
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void checkJumpPoint(Collider2D collider)
     {
         switch (collider.gameObject.tag)
         {
@@ -41,23 +41,46 @@ public class JumpCatMovement : CatMovement
                     }
                 }
                 break;
+            //case "JumpPoint2":
+            //    if (!isJumping)
+            //    {
+            //        if (mouse != null && mouse.GetComponent<Transform>().position.y > trans.position.y) // jump higher
+            //        {
+            //            rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY * 1.1f));
+            //            Debug.Log("jumppoint2");
+            //            isJumping = true;
+            //            SfxManager.PlaySound("jumpingCat");
+            //        }
+            //    }
+            //    break;
+        }
+    }
+
+    //private void OnTriggerEnter2D(Collider2D collider)
+    //{
+    //    checkJumpPoint(collider);
+    //}
+
+    //private void OnTriggerStay2D(Collider2D collider)
+    //{
+    //    checkJumpPoint(collider);
+    //}
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        checkJumpPoint(collider);
+        switch (collider.gameObject.tag)
+        {
             case "JumpPoint2":
-                if (gameObject.transform.localScale.x > 0) // jump over platform gap
+                if (!isJumping)
                 {
-                    rb.AddForce(new Vector2(rb.velocity.x * 400, jumpSpeedY * 0.8f));
-                    Debug.Log("jumppoint2");
-                    isJumping = true;
-                    SfxManager.PlaySound("jumpingCat");
-                }
-                break;
-            case "JumpPoint3": // jump over platform gap
-                isJumping = true;
-                if (gameObject.transform.localScale.x < 0)
-                {
-                    rb.AddForce(new Vector2(rb.velocity.x * 400, jumpSpeedY * 0.8f));
-                    Debug.Log("jumppoint3");
-                    isJumping = true;
-                    SfxManager.PlaySound("jumpingCat");
+                    if (mouse != null && mouse.GetComponent<Transform>().position.y > trans.position.y) // jump higher
+                    {
+                        rb.AddForce(new Vector2(rb.velocity.x, jumpSpeedY * 1.1f));
+                        Debug.Log("jumppoint2");
+                        isJumping = true;
+                        SfxManager.PlaySound("jumpingCat");
+                    }
                 }
                 break;
         }
