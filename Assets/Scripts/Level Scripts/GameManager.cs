@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-        Debug.Log(mouse.GetComponent<Transform>().position);
+        //Debug.Log(mouse.GetComponent<Transform>().position);
 
         for (int i = 0; i < catsToSpawn.Length; i++) // for each type of cat
         {
@@ -362,13 +362,28 @@ public class GameManager : MonoBehaviour
         if (!stunModeOn)
         {
             stunModeOn = true;
-            stunTimer.SetActive(true);
-            stunTimer.GetComponentInChildren<Animator>().SetTrigger("stunCountdown");
-            StartCoroutine(waitForStunTimer());
+            StartCoroutine(waitForStunModeOff());
 
-            GameObject[] existingCats = GameObject.FindGameObjectsWithTag("Cat");
+            GameObject[] allGameObjectsWithCatTag = GameObject.FindGameObjectsWithTag("CatBack");
 
-            for (int i = 0; i < existingCats.Length; i++)
+            List<GameObject> existingCats = new List<GameObject>();
+            for (int i = 0; i < allGameObjectsWithCatTag.Length; i++)
+            {
+                GameObject cat = allGameObjectsWithCatTag[i].transform.parent.gameObject;
+                if (!existingCats.Contains(cat))
+                {
+                    existingCats.Add(cat);
+                }
+            }
+            Debug.Log("existingCats " + existingCats.Count);
+            if (existingCats.Count > 1)
+            {
+                stunTimer.SetActive(true);
+                stunTimer.GetComponentInChildren<Animator>().SetTrigger("stunCountdown");
+                StartCoroutine(waitForStunTimer());
+            }
+
+            for (int i = 0; i < existingCats.Count; i++)
             {
                 if (existingCats[i] != catToIgnore)
                 {
@@ -378,26 +393,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //private int chooseCat()
-    //{
-    //    // TODO: Decide which cat to spawn based on number of cats killed etc etc
-    //    // TODO: Increment cat spawn count
-    //    Random.InitState(System.DateTime.Now.Millisecond);
-    //    return JUMPING_CAT_INDEX;
-    //}
-
-    public int getMaxSpeed()
-    {
-        // TODO: depends on adaptive difficulty level -- maybe not implementing
-        return 3;
-    }
-
     public void gameOver()
     {
         if (!debugInvincibleMode)
         {
             mouse.GetComponent<SpriteRenderer>().enabled = false;
             gameOverObject.SetActive(true);
+            stunTimer.SetActive(false);
             utils.pauseGame(true);
         }
     }
@@ -493,7 +495,6 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3.0f); // delay 3 seconds
-        stunModeOn = false;
 
         if (cat != null)
         {
@@ -516,5 +517,11 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(4.0f);
         stunTimer.SetActive(false);
+    }
+
+    IEnumerator waitForStunModeOff()
+    {
+        yield return new WaitForSeconds(3.0f);
+        stunModeOn = false;
     }
 }
