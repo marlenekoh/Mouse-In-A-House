@@ -381,14 +381,14 @@ MonoBehaviour:
   sameLocationSpawnDelay: 5
   spawnDelay: 4
   numCatsEscaped: 5
-  TimeModifier: 0.2
-  NumCatsKillForIncrement: 3
+  TimeModifier: 0.075
+  NumCatsKillForIncrement: 5
   NumCatsSiameded: 2
   LevelDampener: 4
   LevelCap: 7
   NumBasicCatKills: 5
   NumJumpCatKills: 3
-  NumChargeCatKills: 1
+  NumChargeCatKills: 3
   level: 1
   totalCats: 1
   totalCatsMinusDiff: 1
