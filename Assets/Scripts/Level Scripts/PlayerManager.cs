@@ -34,56 +34,61 @@ public class PlayerManager : MonoBehaviour
         {
             isDead = false;
         }
-        // move left, stop
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.RightArrow))
+        if (!isDead)
         {
-            x = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            goingRight = false;
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            goingRight = true;
-        }
-        rb.velocity = new Vector3(x, rb.velocity.y, 0);
+            // move left, stop
+            float x = Input.GetAxis("Horizontal") * Time.deltaTime * speedX * 100;
 
-        if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
-        {
-            jump(false);
-            //isJumping = true;
-            //SfxManager.PlaySound("jump");
-            //anim.SetBool("isJumping", true);
-            //rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
-        }
-        // add fake gravity to land faster
-        if (isJumping)
-        {
-            Vector3 vel = rb.velocity;
-            vel.y -= 15 * Time.deltaTime;
-            rb.velocity = vel;
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                x = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                goingRight = false;
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                goingRight = true;
+            }
+            rb.velocity = new Vector3(x, rb.velocity.y, 0);
 
-        if (rb.velocity.x != 0)
-        {
-            anim.SetBool("isRunning", true);
-        }
-        else
-        {
-            anim.SetBool("isRunning", false);
-        }
+            if (!isJumping && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
+            {
+                jump(false);
+                //isJumping = true;
+                //SfxManager.PlaySound("jump");
+                //anim.SetBool("isJumping", true);
+                //rb.velocity = new Vector3(rb.velocity.x, jumpSpeedY, 0);
+            }
+            // add fake gravity to land faster
+            if (isJumping)
+            {
+                Vector3 vel = rb.velocity;
+                vel.y -= 15 * Time.deltaTime;
+                rb.velocity = vel;
+            }
 
-        // Flip
-        if (goingRight && !facingRight || !goingRight && facingRight)
-        {
-            facingRight = !facingRight;
-            Vector3 temp = transform.localScale;
-            temp.x *= -1;
-            transform.localScale = temp;
+            if (rb.velocity.x != 0)
+            {
+                anim.SetBool("isRunning", true);
+            }
+            else
+            {
+                anim.SetBool("isRunning", false);
+            }
+
+            // Flip
+            if (goingRight && !facingRight || !goingRight && facingRight)
+            {
+                facingRight = !facingRight;
+                Vector3 temp = transform.localScale;
+                temp.x *= -1;
+                transform.localScale = temp;
+            }
         }
+        
     }
 
     public void jump(bool isRecoil)
@@ -155,6 +160,12 @@ public class PlayerManager : MonoBehaviour
                     StartCoroutine(lagGameOver());
                 }
             }
+            else
+            {
+                GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
+                SfxManager.PlaySound("killCat");
+                GameManager.getInstance().onSuccessfulKill(deadCat);
+            }
         }
     }
 
@@ -165,10 +176,6 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
             SfxManager.PlaySound("killCat");
-            //Vector3 tempVel = rb.velocity;
-            //tempVel.x = 0;
-            //rb.velocity = tempVel;
-            //jump(true);
             GameManager.getInstance().onSuccessfulKill(deadCat);
         }
 
@@ -183,13 +190,19 @@ public class PlayerManager : MonoBehaviour
                     StartCoroutine(lagGameOver());
                 }
             }
+            else
+            {
+                GameObject deadCat = collision.gameObject.GetComponent<Transform>().parent.gameObject;
+                SfxManager.PlaySound("killCat");
+                GameManager.getInstance().onSuccessfulKill(deadCat);
+            }
         }
     }
 
     IEnumerator lagGameOver()
     {
         isDead = true;
-        yield return new WaitForSeconds(0.5f); // delay to play explosion anim
+        yield return new WaitForSeconds(0.4f); // delay to play explosion anim
         SfxManager.PlaySound("gameOverSound");
         GameManager.getInstance().gameOver();
     }
